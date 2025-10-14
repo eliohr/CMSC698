@@ -15,7 +15,6 @@
 		C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */; };
 		C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB82EC248AEB7B00CD7D41 /* SceneDelegate.swift */; };
 		C4EB82F2248AEB7B00CD7D41 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */; };
-		C4EB82F4248AEB7B00CD7D41 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4EB82F3248AEB7B00CD7D41 /* Assets.xcassets */; };
 		C4EB82F7248AEB7B00CD7D41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,7 @@
 		90AED4AF2E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakDetectionAlgorithm.swift; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		C475655C248AEBD900F111B8 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		C4756560248AEC4100F111B8 /* HandPose.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HandPose.entitlements; sourceTree = "<group>"; };
+		C4756560248AEC4100F111B8 /* ConductorCamera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConductorCamera.entitlements; sourceTree = "<group>"; };
 		C4EB82E7248AEB7B00CD7D41 /* HandPose.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandPose.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4EB82EC248AEB7B00CD7D41 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				131D672E55F74A60D83C1534 /* README.md */,
-				C4EB82E9248AEB7B00CD7D41 /* HandPose */,
+				C4EB82E9248AEB7B00CD7D41 /* ConductorCamera */,
 				C4EB82E8248AEB7B00CD7D41 /* Products */,
 				3DFF40B4B70C4CD3181B64B7 /* Configuration */,
 				32A6CCA239152BDC17147684 /* LICENSE */,
@@ -84,7 +83,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C4EB82E9248AEB7B00CD7D41 /* HandPose */ = {
+		C4EB82E9248AEB7B00CD7D41 /* ConductorCamera */ = {
 			isa = PBXGroup;
 			children = (
 				C475655A248AEBD800F111B8 /* CameraView.swift */,
@@ -97,10 +96,10 @@
 				C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */,
 				C4EB82EC248AEB7B00CD7D41 /* SceneDelegate.swift */,
 				C4EB82F3248AEB7B00CD7D41 /* Assets.xcassets */,
-				C4756560248AEC4100F111B8 /* HandPose.entitlements */,
+				C4756560248AEC4100F111B8 /* ConductorCamera.entitlements */,
 				C4EB82F8248AEB7B00CD7D41 /* Info.plist */,
 			);
-			path = HandPose;
+			path = ConductorCamera;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,7 +137,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C4EB82E2248AEB7B00CD7D41 /* Build configuration list for PBXProject "HandPose" */;
+			buildConfigurationList = C4EB82E2248AEB7B00CD7D41 /* Build configuration list for PBXProject "ConductorCamera" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -162,7 +161,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4EB82F7248AEB7B00CD7D41 /* LaunchScreen.storyboard in Resources */,
-				C4EB82F4248AEB7B00CD7D41 /* Assets.xcassets in Resources */,
 				C4EB82F2248AEB7B00CD7D41 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,7 +373,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C4EB82E2248AEB7B00CD7D41 /* Build configuration list for PBXProject "HandPose" */ = {
+		C4EB82E2248AEB7B00CD7D41 /* Build configuration list for PBXProject "ConductorCamera" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C4EB82F9248AEB7B00CD7D41 /* Debug */,
