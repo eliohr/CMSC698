@@ -15,7 +15,7 @@ class PeakBuffer {
         
     }
     
-    func addPoint(point: CGPoint) {
+    func addPoint(point: BufferPoint) {
         return
     }
     

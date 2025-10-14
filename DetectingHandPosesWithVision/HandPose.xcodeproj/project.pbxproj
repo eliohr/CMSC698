@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		906250942E982C6500AD389E /* BufferPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906250932E982C6000AD389E /* BufferPoint.swift */; };
 		9062D6EA2E95A86600B2C937 /* PeakBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062D6E92E95A85A00B2C937 /* PeakBuffer.swift */; };
 		90AED4B02E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AED4AF2E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift */; };
 		C475655D248AEBD900F111B8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655A248AEBD800F111B8 /* CameraView.swift */; };
@@ -22,6 +23,7 @@
 		131D672E55F74A60D83C1534 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		26547FACF06954AF783E23D9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		906250932E982C6000AD389E /* BufferPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BufferPoint.swift; sourceTree = "<group>"; };
 		9062D6E92E95A85A00B2C937 /* PeakBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakBuffer.swift; sourceTree = "<group>"; };
 		90AED4AF2E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakDetectionAlgorithm.swift; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 				C475655A248AEBD800F111B8 /* CameraView.swift */,
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
 				9062D6E92E95A85A00B2C937 /* PeakBuffer.swift */,
+				906250932E982C6000AD389E /* BufferPoint.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
 				90AED4AF2E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift */,
 				C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */,
@@ -172,6 +175,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9062D6EA2E95A86600B2C937 /* PeakBuffer.swift in Sources */,
+				906250942E982C6500AD389E /* BufferPoint.swift in Sources */,
 				C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */,
 				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
 				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,

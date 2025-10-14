@@ -95,7 +95,7 @@ class CameraViewController: UIViewController {
     
     func processPoint(point: CGPoint?) {
         // Check that we have both points.
-        guard let wristPoint = point else {
+        guard let newPoint = point else {
             // If there were no observations for more than 3 seconds reset peak buffer.
             if Date().timeIntervalSince(lastObservationTimestamp) > 3 {
                 peakBuffer.reset()
@@ -106,10 +106,12 @@ class CameraViewController: UIViewController {
         
         // Convert points from AVFoundation coordinates to UIKit coordinates.
         let previewLayer = cameraView.previewLayer
-        let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: wristPoint)
+        let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: newPoint)
         
         // Add new points to peak buffer
-        peakBuffer.addPoint(point: wristPoint)
+        let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
+        peakBuffer.addPoint(point: newBufferPoint)
+        
 }
     
 }
