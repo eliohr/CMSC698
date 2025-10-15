@@ -9,13 +9,25 @@
 import UIKit
 import AVFoundation
 
+
 class PeakBuffer {
+    
+    private var size = Int()
+    private var maxSize = 0
+    
+    init(maxSize: Int) {
+        self.maxSize = maxSize
+    }
     
     func reset() {
         
     }
     
     func addPoint(point: BufferPoint) {
+        size+=1
+        while(size>=maxSize) {
+            
+        }
         return
     }
     

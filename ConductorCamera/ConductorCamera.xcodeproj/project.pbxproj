@@ -6,29 +6,16 @@
 	objectVersion = 50;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		906250942E982C6500AD389E /* BufferPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906250932E982C6000AD389E /* BufferPoint.swift */; };
-		9062D6EA2E95A86600B2C937 /* PeakBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9062D6E92E95A85A00B2C937 /* PeakBuffer.swift */; };
-		90AED4B02E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AED4AF2E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift */; };
-		C475655D248AEBD900F111B8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655A248AEBD800F111B8 /* CameraView.swift */; };
-		C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655C248AEBD900F111B8 /* CameraViewController.swift */; };
-		C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */; };
-		C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB82EC248AEB7B00CD7D41 /* SceneDelegate.swift */; };
-		C4EB82F2248AEB7B00CD7D41 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */; };
-		C4EB82F7248AEB7B00CD7D41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		131D672E55F74A60D83C1534 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		26547FACF06954AF783E23D9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		906250932E982C6000AD389E /* BufferPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BufferPoint.swift; sourceTree = "<group>"; };
 		9062D6E92E95A85A00B2C937 /* PeakBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakBuffer.swift; sourceTree = "<group>"; };
+		909BB9A02E9FEF71005B1A8B /* BufferPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BufferPoint.swift; sourceTree = "<group>"; };
 		90AED4AF2E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeakDetectionAlgorithm.swift; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		C475655C248AEBD900F111B8 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		C4756560248AEC4100F111B8 /* ConductorCamera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConductorCamera.entitlements; sourceTree = "<group>"; };
-		C4EB82E7248AEB7B00CD7D41 /* HandPose.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HandPose.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4EB82EC248AEB7B00CD7D41 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C4EB82F1248AEB7B00CD7D41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -36,16 +23,6 @@
 		C4EB82F6248AEB7B00CD7D41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4EB82F8248AEB7B00CD7D41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		C4EB82E4248AEB7B00CD7D41 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		32A6CCA239152BDC17147684 /* LICENSE */ = {
@@ -78,7 +55,6 @@
 		C4EB82E8248AEB7B00CD7D41 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C4EB82E7248AEB7B00CD7D41 /* HandPose.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,7 +65,7 @@
 				C475655A248AEBD800F111B8 /* CameraView.swift */,
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
 				9062D6E92E95A85A00B2C937 /* PeakBuffer.swift */,
-				906250932E982C6000AD389E /* BufferPoint.swift */,
+				909BB9A02E9FEF71005B1A8B /* BufferPoint.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
 				90AED4AF2E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift */,
 				C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */,
@@ -104,26 +80,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXNativeTarget section */
-		C4EB82E6248AEB7B00CD7D41 /* HandPose */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C4EB82FB248AEB7B00CD7D41 /* Build configuration list for PBXNativeTarget "HandPose" */;
-			buildPhases = (
-				C4EB82E3248AEB7B00CD7D41 /* Sources */,
-				C4EB82E4248AEB7B00CD7D41 /* Frameworks */,
-				C4EB82E5248AEB7B00CD7D41 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = HandPose;
-			productName = HandPose;
-			productReference = C4EB82E7248AEB7B00CD7D41 /* HandPose.app */;
-			productType = "com.apple.product-type.application";
-		};
-/* End PBXNativeTarget section */
-
 /* Begin PBXProject section */
 		C4EB82DF248AEB7B00CD7D41 /* Project object */ = {
 			isa = PBXProject;
@@ -131,11 +87,6 @@
 				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = Apple;
-				TargetAttributes = {
-					C4EB82E6248AEB7B00CD7D41 = {
-						CreatedOnToolsVersion = 12.0;
-					};
-				};
 			};
 			buildConfigurationList = C4EB82E2248AEB7B00CD7D41 /* Build configuration list for PBXProject "ConductorCamera" */;
 			compatibilityVersion = "Xcode 9.3";
@@ -150,39 +101,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C4EB82E6248AEB7B00CD7D41 /* HandPose */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		C4EB82E5248AEB7B00CD7D41 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C4EB82F7248AEB7B00CD7D41 /* LaunchScreen.storyboard in Resources */,
-				C4EB82F2248AEB7B00CD7D41 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		C4EB82E3248AEB7B00CD7D41 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9062D6EA2E95A86600B2C937 /* PeakBuffer.swift in Sources */,
-				906250942E982C6500AD389E /* BufferPoint.swift in Sources */,
-				C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */,
-				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
-				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,
-				90AED4B02E8EF646001DC3E2 /* PeakDetectionAlgorithm.swift in Sources */,
-				C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
 		C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */ = {
@@ -322,54 +243,6 @@
 			};
 			name = Release;
 		};
-		C4EB82FC248AEB7B00CD7D41 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = HandPose/HandPose.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PSS2X75KMT;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				INFOPLIST_FILE = HandPose/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.HandPose${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTS_MACCATALYST = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		C4EB82FD248AEB7B00CD7D41 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = HandPose/HandPose.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PSS2X75KMT;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				INFOPLIST_FILE = HandPose/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.HandPose${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SUPPORTS_MACCATALYST = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -378,15 +251,6 @@
 			buildConfigurations = (
 				C4EB82F9248AEB7B00CD7D41 /* Debug */,
 				C4EB82FA248AEB7B00CD7D41 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C4EB82FB248AEB7B00CD7D41 /* Build configuration list for PBXNativeTarget "HandPose" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C4EB82FC248AEB7B00CD7D41 /* Debug */,
-				C4EB82FD248AEB7B00CD7D41 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
