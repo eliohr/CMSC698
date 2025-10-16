@@ -15,8 +15,8 @@ class BufferPoint {
     
     private var rawPoint = CGPoint()
     private var time = Date()
-    private var velocity = 0.0
-    private var acceleration = 0.0
+    private var velocity = CGVector()
+    private var acceleration = CGVector()
     private var isBeat = false
     private var isDownbeat = false
     
@@ -25,6 +25,25 @@ class BufferPoint {
         self.time = time
     }
     
-    
+    // MARK: - Mutator Methods (The "Setters" for the PeakBuffer)
+    // Gemini suggested this in response to my instinct to use the conventional Java approach of public getters and setters
+        
+        /**
+         Updates the calculated kinematic values.
+         This method is called by the PeakBuffer after comparing this point to the previous one.
+         */
+        func updateCalculatedValues(velocity: CGVector, acceleration: CGVector) {
+            self.velocity = velocity
+            self.acceleration = acceleration
+        }
+        
+        /**
+         Sets the beat detection flags.
+         This method is called by the PeakDetectionAlgorithm.
+         */
+        func setBeatFlags(isBeat: Bool, isDownbeat: Bool) {
+            self.isBeat = isBeat
+            self.isDownbeat = isDownbeat
+        }
     
 }
