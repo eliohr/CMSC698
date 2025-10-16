@@ -52,7 +52,8 @@ class CameraView: UIView {
     func showPoints(color: UIColor, point: CGPoint) {
         overlayLayer.fillColor = color.cgColor
         coordsDisplayer.fontSize = 24
-        coordsDisplayer.string = "Wrist: (\(Int(point.x)), \(Int(point.y)))" // assistance from Gemini
+        let coordsDisplay = "x: \((round((point.x)*1000))/1000), y: \((round((point.y)*1000))/1000)" // string concatenation assistance from Gemini
+        coordsDisplayer.string = coordsDisplay
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         CATransaction.commit()

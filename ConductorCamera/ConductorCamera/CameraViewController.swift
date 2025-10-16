@@ -97,13 +97,14 @@ class CameraViewController: UIViewController {
             if Date().timeIntervalSince(lastObservationTimestamp) > 3 {
                 //beatBuffer.clear()
             }
-            cameraView.showPoints(color: .clear, point: point ?? CGPoint(x: -1,y: -1))
             return
         }
         
+        cameraView.showPoints(color: .clear, point: newPoint)
+        
         // Convert points from AVFoundation coordinates to UIKit coordinates.
         let previewLayer = cameraView.previewLayer
-        let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: newPoint)
+        //let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: newPoint)
         
         // Add new points to peak buffer
         //let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
@@ -161,10 +162,11 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             if let wristPoint = processObservation(observation) {
                 wrist = wristPoint
             } else {
-                let error = AppError.poseEstimation(reason: "No wrist point reliably detected")
+                // removed this error for now because i thought it might be getting in the way of the detection logic
+                /* let error = AppError.poseEstimation(reason: "No wrist point reliably detected")
                 DispatchQueue.main.async {
                     error.displayInViewController(self)
-                }
+                } */
                 // wrist remains nil and will be handled in processPoint - Copilot assistance
             }
             
