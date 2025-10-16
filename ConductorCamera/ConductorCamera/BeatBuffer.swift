@@ -43,6 +43,7 @@ class BeatBuffer {
         // shifting around the insertion point instead of all the elements in the array
         headPtr+=1
         data.insert(point, at: headPtr)
+        process()
         return
     }
     
@@ -51,16 +52,11 @@ class BeatBuffer {
     }
     
     public func process() {
-<<<<<<< Updated upstream
-        for point in data {
-            
-=======
         for (index, point) in data.enumerated() {
             var previous = BufferPoint()
             previous = data[index-1]
             
             point.updateCalculatedValues(velocity: <#T##CGVector#>, acceleration: <#T##CGVector#>)
->>>>>>> Stashed changes
         }
     }
     
