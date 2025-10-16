@@ -1,9 +1,7 @@
 /*
 See the APPLE-LICENSE.txt file for this sample’s licensing information.
 
-Abstract:
-The app's main view controller object.
-
+Abstract: The app's main view controller object.
 */
 
 import UIKit
@@ -25,9 +23,8 @@ class CameraViewController: UIViewController {
     private var isFirstSegment = true
     private var lastObservationTimestamp = Date()
     
-    private var peakDetector = PeakDetectionAlgorithm()
     private var detection = (120.0,4,1)
-    private var peakBuffer = PeakBuffer()
+    private var beatBuffer = BeatBuffer(capacity: 100)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +95,7 @@ class CameraViewController: UIViewController {
         guard let newPoint = point else {
             // If there were no observations for more than 3 seconds reset peak buffer.
             if Date().timeIntervalSince(lastObservationTimestamp) > 3 {
-                peakBuffer.reset()
+                beatBuffer.clear()
             }
             cameraView.showPoints(color: .clear, point: point ?? CGPoint(x: -1,y: -1))
             return
@@ -110,7 +107,7 @@ class CameraViewController: UIViewController {
         
         // Add new points to peak buffer
         let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
-        peakBuffer.addPoint(point: newBufferPoint)
+        beatBuffer.addPoint(point: newBufferPoint)
         
 }
     
@@ -146,7 +143,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             DispatchQueue.main.sync {
                 self.processPoint(point: wrist)
             }
-            self.detection = self.peakDetector.process(buffer: self.peakBuffer)
+            self.detection = self.beatBuffer.getTempo()
         }
 
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
