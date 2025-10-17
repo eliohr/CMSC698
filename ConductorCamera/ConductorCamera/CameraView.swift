@@ -11,6 +11,7 @@ class CameraView: UIView {
 
     private var overlayLayer = CAShapeLayer()
     private var coordsDisplayer = CATextLayer()
+    private var tempoDisplayer = CATextLayer()
 
     var previewLayer: AVCaptureVideoPreviewLayer {
         return layer as! AVCaptureVideoPreviewLayer
@@ -40,19 +41,24 @@ class CameraView: UIView {
     private func setupOverlay() {
         previewLayer.addSublayer(overlayLayer)
         previewLayer.addSublayer(coordsDisplayer)
+        previewLayer.addSublayer(tempoDisplayer)
         
         // assistance from Gemini
         coordsDisplayer.frame = CGRect(x: 10, y: 100, width: 300, height: 40)
         coordsDisplayer.foregroundColor = UIColor.white.cgColor
-        coordsDisplayer.backgroundColor = UIColor.clear.cgColor
-        
         coordsDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
+        
+        // assistance from Gemini
+        tempoDisplayer.frame = CGRect(x: 50, y: 100, width: 300, height: 80)
+        tempoDisplayer.foregroundColor = UIColor.white.cgColor
+        tempoDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
     }
     
-    func showPoints(color: UIColor, point: CGPoint) {
+    func showPoints(color: UIColor, point: CGPoint, tempo: Tempo) {
         overlayLayer.fillColor = color.cgColor
         coordsDisplayer.fontSize = 24
-        let coordsDisplay = "x: \((round((point.x)*1000))/1000), y: \((round((point.y)*1000))/1000)" // string concatenation assistance from Gemini
+        let coordsDisplay = "x: \((round((point.x)*1000))/1000), y: \((round((point.y)*1000))/1000)"
+        let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
         coordsDisplayer.string = coordsDisplay
         CATransaction.begin()
         CATransaction.setDisableActions(true)

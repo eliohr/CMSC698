@@ -1,6 +1,15 @@
 # Conductor camera for playback tempo sync
 Outlined with help from Google Gemini
 
+## Parameters to optimize
+- Hand keypoint
+- Vision observation confidence
+- Buffer capacity
+- EMA filter weight
+- Beat acceleration threshold
+- Tempo range
+- Tempo hysterisis
+
 ## Pose Estimation on iOS
 - Use Apple Vision framework built on CoreML
 - Technical considerations for accuracy/efficiency:
@@ -12,10 +21,10 @@ Outlined with help from Google Gemini
 
 ## Tempo Determination Logic
 - Low-pass filtering to smooth out minor jitters
-- Peak Detection Algorithm to determine local Y-coordinate maxima on scales of beats and measures
-    - Thresholding: A minimum vertical displacement to qualify as a beat.
+- Beat Detection Algorithm to determine local acceleration peaks
+    - Velocity/Acceleration: The "flick" of the hand often corresponds to a peak in acceleration, which can be a more robust indicator than just position. You might derive velocity from coordinate changes and then acceleration.
+    - Thresholding: A minimum displacement to qualify as a beat.
     - Time-based Windowing: Peaks must occur within a reasonable time window to be considered part of a rhythmic pattern.
-    - Velocity/Acceleration: The "flick" of the hand often corresponds to a peak in acceleration, which can be a more robust indicator than just position. You might derive velocity from y-coordinate changes and then acceleration.
 - Tempo Calculation
     * Measure the time between detected peaks (Inter-Beat Interval - IBI).
     * Convert IBI to BPM: BPM = 60 / IBI (in seconds).

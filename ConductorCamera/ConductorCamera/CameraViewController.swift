@@ -16,7 +16,6 @@ class CameraViewController: UIViewController {
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
-    private let drawOverlay = CAShapeLayer()
     private let drawPath = UIBezierPath()
     // private var evidenceBuffer = [PeakDetectionAlgorithm.PointsPair]()
     private var lastDrawPoint: CGPoint?
@@ -24,18 +23,7 @@ class CameraViewController: UIViewController {
     private var lastObservationTimestamp = Date()
     
     private var detection = (120.0,4,1)
-    //private var beatBuffer = BeatBuffer(capacity: 100)
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        drawOverlay.frame = view.layer.bounds
-        drawOverlay.lineWidth = 5
-        drawOverlay.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0.5).cgColor
-        drawOverlay.strokeColor = #colorLiteral(red: 0.6, green: 0.1, blue: 0.3, alpha: 1).cgColor
-        drawOverlay.fillColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0).cgColor
-        drawOverlay.lineCap = .round
-        view.layer.addSublayer(drawOverlay)
-    }
+    private var beatBuffer = BeatBuffer(capacity: 100)
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -93,22 +81,23 @@ class CameraViewController: UIViewController {
     func processPoint(point: CGPoint?) {
         // Check that we have both points.
         guard let newPoint = point else {
-            // If there were no observations for more than 3 seconds reset peak buffer.
+            // If there were no observations for more than 3 seconds reset beat buffer.
             if Date().timeIntervalSince(lastObservationTimestamp) > 3 {
-                //beatBuffer.clear()
+                beatBuffer.clear()
             }
             return
         }
-        
-        cameraView.showPoints(color: .clear, point: newPoint)
         
         // Convert points from AVFoundation coordinates to UIKit coordinates.
         let previewLayer = cameraView.previewLayer
         //let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: newPoint)
         
         // Add new points to peak buffer
-        //let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
-        //beatBuffer.addPoint(point: newBufferPoint)
+        let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
+        beatBuffer.addPoint(point: newBufferPoint)
+        let newTempo = beatBuffer.getTempo()
+        
+        cameraView.showPoints(color: .clear, point: newPoint, tempo: newTempo)
         
 }
     

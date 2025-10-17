@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		90F64AFB2EA17A8300CA0097 /* BeatBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */; };
-		90F64AFC2EA17A8300CA0097 /* BufferPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F64AFA2EA17A8300CA0097 /* BufferPoint.swift */; };
 		C475655D248AEBD900F111B8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655A248AEBD800F111B8 /* CameraView.swift */; };
 		C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655C248AEBD900F111B8 /* CameraViewController.swift */; };
 		C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */; };
@@ -23,7 +22,6 @@
 		26547FACF06954AF783E23D9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatBuffer.swift; sourceTree = "<group>"; };
-		90F64AFA2EA17A8300CA0097 /* BufferPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BufferPoint.swift; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		C475655C248AEBD900F111B8 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		C4756560248AEC4100F111B8 /* ConductorCamera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConductorCamera.entitlements; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */,
-				90F64AFA2EA17A8300CA0097 /* BufferPoint.swift */,
 				C475655A248AEBD800F111B8 /* CameraView.swift */,
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
@@ -173,7 +170,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				90F64AFB2EA17A8300CA0097 /* BeatBuffer.swift in Sources */,
-				90F64AFC2EA17A8300CA0097 /* BufferPoint.swift in Sources */,
 				C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */,
 				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
 				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,
