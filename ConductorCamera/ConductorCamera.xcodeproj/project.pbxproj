@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		904C6CE82EA2B34500C8CB0D /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904C6CE72EA2B34100C8CB0D /* Parameters.swift */; };
 		90F64AFB2EA17A8300CA0097 /* BeatBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */; };
 		C475655D248AEBD900F111B8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655A248AEBD800F111B8 /* CameraView.swift */; };
 		C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655C248AEBD900F111B8 /* CameraViewController.swift */; };
@@ -21,6 +22,7 @@
 		131D672E55F74A60D83C1534 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		26547FACF06954AF783E23D9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		904C6CE72EA2B34100C8CB0D /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatBuffer.swift; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		C475655C248AEBD900F111B8 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */,
 				C475655A248AEBD800F111B8 /* CameraView.swift */,
+				904C6CE72EA2B34100C8CB0D /* Parameters.swift */,
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
 				C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */,
@@ -174,6 +177,7 @@
 				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
 				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,
 				C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */,
+				904C6CE82EA2B34500C8CB0D /* Parameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

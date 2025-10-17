@@ -23,7 +23,7 @@ class CameraViewController: UIViewController {
     private var lastObservationTimestamp = Date()
     
     private var detection = (120.0,4,1)
-    private var beatBuffer = BeatBuffer(capacity: 100)
+    private var beatBuffer = BeatBuffer(capacity: Parameters().bufferCapacity)
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -92,9 +92,9 @@ class CameraViewController: UIViewController {
         let previewLayer = cameraView.previewLayer
         //let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: newPoint)
         
-        // Add new points to peak buffer
+        // add new points to beat buffer
         let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
-        beatBuffer.addPoint(point: newBufferPoint)
+        beatBuffer.addPoint(nextPoint: newBufferPoint)
         let newTempo = beatBuffer.getTempo()
         
         cameraView.showPoints(color: .clear, point: newPoint, tempo: newTempo)
@@ -113,7 +113,7 @@ func processObservation(_ observation: VNHumanHandPoseObservation) -> CGPoint? {
     guard let wristPoint = recognizedPoints[.wrist] else { return nil }
     
     // Check confidence. If 0.2, the point wasn't reliably detected.
-    guard wristPoint.confidence >= 0.2 else { return nil }
+    guard wristPoint.confidence >= Parameters().visionObservationConfidence else { return nil }
     
     // Convert points from Vision coordinates to AVFoundation coordinates.
     let convertedWristPoint = CGPoint(x: wristPoint.location.x, y: 1 - wristPoint.location.y)

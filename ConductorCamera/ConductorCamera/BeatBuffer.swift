@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-// might put this inside a different class more relevant to actually generating the midi signal but i'm not nearly that far along yet
+// might put this inside a different class more relevant to actually generating the midi signal but I'm not nearly that far along yet
 struct Tempo {
     var bpm = Double()
     var meter = Int()
@@ -22,7 +22,7 @@ struct Tempo {
     }
 }
 
-//  gemini suggested the velocity and acceleration variables all be stored here
+//  Gemini suggested the velocity and acceleration variables all be stored here
 struct BufferPoint {
     var rawPoint = CGPoint()
     var time = Date()
@@ -38,7 +38,7 @@ struct BufferPoint {
 
 }
 
-//  ring buffer implementation inspired by https://www.youtube.com/watch?v=KyreJSKEagg
+// ring buffer implementation inspired by https://www.youtube.com/watch?v=KyreJSKEagg
 class BeatBuffer {
     
     var data = [BufferPoint]()
@@ -63,37 +63,54 @@ class BeatBuffer {
         var headPtr = 0
     }
     
-    public func addPoint(point: BufferPoint) {
+    public func addPoint(nextPoint: BufferPoint) {
+        var nextPoint = nextPoint
         size+=1
         while(size>=capacity) {
             data.remove(at: headPtr)
             size-=1
         }
+        
+        let currentOptional: BufferPoint? = data[headPtr-1]
+        guard let currentUnfilteredPoint = currentOptional else { return }
+        
+        // apply stronger filter to points
+        let currentPoint = BufferPoint(point: CGPoint(x: applyFilter(value: currentUnfilteredPoint.rawPoint.x, previousValue: nextPoint.rawPoint.x, weight: Parameters().pointFilterWeight), y: applyFilter(value: currentUnfilteredPoint.rawPoint.y, previousValue: nextPoint.rawPoint.y, weight: Parameters().pointFilterWeight)), time: currentUnfilteredPoint.time)
+        
+        // Gemini helped me with some syntax here (how to get differences in date objects and initialize cgvectors)
+        
+        // calculate time interval
+        let dt = nextPoint.time.timeIntervalSince(currentPoint.time)
+        
+        // calculate position change
+        let dx = nextPoint.rawPoint.x - currentPoint.rawPoint.x
+        let dy = nextPoint.rawPoint.y - currentPoint.rawPoint.y
+
+        // calculate velocity change
+        let ddx = nextPoint.velocity.dx - currentPoint.velocity.dx
+        let ddy = nextPoint.velocity.dy - currentPoint.velocity.dy
+        
+        // apply weaker filter to accelerations
+        
         // shifting around the insertion point instead of all the elements in the array
         headPtr+=1
-        data.insert(point, at: headPtr)
+        data.insert(nextPoint, at: headPtr)
         
-        process()
+        
         return
+    }
+    
+    // I learned about the EMA filter using this video https://www.youtube.com/watch?v=iPYacJZM5Z0
+    public func applyFilter(value: Double, previousValue: Double, weight: Double) -> Double {
+        return (weight*value-(1-weight)*value)
     }
     
     public func head(h: Int) -> BufferPoint {
         return data[h]
     }
     
-    public func process() {
-        for (index, point) in data.enumerated() {
-            
-            let previousOptional: BufferPoint? = data[index-1]
-            guard let previous = previousOptional else { return }
-            
-            
-            // i learned about the EMA filter using this video https://www.youtube.com/watch?v=iPYacJZM5Z0
-            
-        }
-    }
-    
     public func getTempo() -> (Tempo) {
+        // insert actual tempo determination logic here
         let helloWorld = Tempo(bpm: 120.0, meter: 4, beat: 1)
         return (helloWorld)
         
