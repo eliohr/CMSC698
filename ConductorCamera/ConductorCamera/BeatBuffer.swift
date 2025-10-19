@@ -22,18 +22,22 @@ struct Tempo {
     }
 }
 
-//  Gemini suggested the velocity and acceleration variables all be stored here
+// Gemini suggested the velocity and acceleration variables all be stored here
 struct BufferPoint {
-    var rawPoint = CGPoint()
+    var measuredPoint = CGPoint()
+    var filteredPoint = CGPoint()
     var time = Date()
     var velocity = CGVector()
-    var acceleration = CGVector()
+    var filteredAcceleration = CGVector()
     var isBeat = false
     var isDownbeat = false
     
     init(point: CGPoint = CGPoint(), time: Date = Date()) {
-        self.rawPoint = point
+        self.measuredPoint = point
+        self.filteredPoint = point
         self.time = time
+        self.velocity = .zero
+        self.filteredAcceleration = .zero
     }
 
 }
@@ -42,10 +46,10 @@ struct BufferPoint {
 class BeatBuffer {
     
     var data = [BufferPoint]()
-    var size = 0
     // some silly lower-level-looking logic for reducing processing speed
     var headPtr = 0
     var capacity = Int()
+    private let parameters = Parameters() // Create Parameters instance once
     
     init(capacity: Int) {
         self.capacity = capacity
@@ -53,56 +57,73 @@ class BeatBuffer {
         data.reserveCapacity(_:capacity)
     }
     
-    public func reset() {
+    /* public func reset() {
         
-    }
+    } */
     
     public func clear() {
         data.removeAll()
-        var size = 0
-        var headPtr = 0
+        headPtr = 0
     }
     
-    public func addPoint(nextPoint: BufferPoint) {
-        var nextPoint = nextPoint
-        size+=1
-        while(size>=capacity) {
-            data.remove(at: headPtr)
-            size-=1
+    // revised ring buffer var names and array arithmetic with Copilot
+    public func addPoint(currentPoint: BufferPoint) {
+        var p = currentPoint
+        guard capacity > 0 else { return }
+        
+        // if empty initialize one element without filtering or calculating velocity or acceleration and return so velocity can be calculated next
+        if data.isEmpty {
+            self.data.append(p)
+            headPtr = data.count % capacity
+            return
         }
         
-        let currentOptional: BufferPoint? = data[headPtr-1]
-        guard let currentUnfilteredPoint = currentOptional else { return }
+        // index of previous element
+        let lastIndex = (headPtr - 1 + data.count) % data.count
+        let prev = data[lastIndex]
+        
+        // calculate time interval—copilot suggested /0 safeguard
+        let dt = max(1e-6, p.time.timeIntervalSince(prev.time))
         
         // apply stronger filter to points
-        let currentPoint = BufferPoint(point: CGPoint(x: applyFilter(value: currentUnfilteredPoint.rawPoint.x, previousValue: nextPoint.rawPoint.x, weight: Parameters().pointFilterWeight), y: applyFilter(value: currentUnfilteredPoint.rawPoint.y, previousValue: nextPoint.rawPoint.y, weight: Parameters().pointFilterWeight)), time: currentUnfilteredPoint.time)
+        let fx = applyFilter(value: p.measuredPoint.x, previousValue: prev.filteredPoint.x, weight: parameters.pointFilterWeight)
+        let fy = applyFilter(value: p.measuredPoint.y, previousValue: prev.filteredPoint.y, weight: parameters.pointFilterWeight)
         
         // Gemini helped me with some syntax here (how to get differences in date objects and initialize cgvectors)
         
-        // calculate time interval
-        let dt = nextPoint.time.timeIntervalSince(currentPoint.time)
+        // calculate position change (velocity)
+        let dx = (fx - prev.filteredPoint.x)/dt
+        let dy = (fy - prev.filteredPoint.y)/dt
         
-        // calculate position change
-        let dx = nextPoint.rawPoint.x - currentPoint.rawPoint.x
-        let dy = nextPoint.rawPoint.y - currentPoint.rawPoint.y
-
-        // calculate velocity change
-        let ddx = nextPoint.velocity.dx - currentPoint.velocity.dx
-        let ddy = nextPoint.velocity.dy - currentPoint.velocity.dy
+        // calculate velocity change (acceleration)
+        let ddx = (dx - prev.velocity.dx)/dt
+        let ddy = (dy - prev.velocity.dy)/dt
         
         // apply weaker filter to accelerations
+        let fddx = applyFilter(value: ddx, previousValue: prev.filteredAcceleration.dx, weight: parameters.accelerationFilterWeight)
+        let fddy = applyFilter(value: ddy, previousValue: prev.filteredAcceleration.dy, weight: parameters.accelerationFilterWeight)
+
+        // assign velocity and acceleration vectors to nextPoint as well as the filtered point so the next value can depend on the current filtered value
+        p.filteredPoint = CGPoint(x: fx, y: fy)
+        p.velocity = CGVector(dx: dx, dy: dy)
+        p.filteredAcceleration = CGVector(dx: fddx, dy: fddy)
         
         // shifting around the insertion point instead of all the elements in the array
-        headPtr+=1
-        data.insert(nextPoint, at: headPtr)
-        
-        
+        headPtr = (headPtr + 1) % capacity
+
+        // for some reason appending and replacing are different methods
+        if (data.count < capacity) {
+            self.data.append(p)
+        } else {
+            self.data[headPtr] = p
+        }
+
         return
     }
     
     // I learned about the EMA filter using this video https://www.youtube.com/watch?v=iPYacJZM5Z0
     public func applyFilter(value: Double, previousValue: Double, weight: Double) -> Double {
-        return (weight*value-(1-weight)*value)
+        return (weight * value + (1.0 - weight) * previousValue)
     }
     
     public func head(h: Int) -> BufferPoint {

@@ -47,18 +47,19 @@ class CameraView: UIView {
         coordsDisplayer.frame = CGRect(x: 10, y: 100, width: 300, height: 40)
         coordsDisplayer.foregroundColor = UIColor.white.cgColor
         coordsDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
-        
-        // assistance from Gemini
-        tempoDisplayer.frame = CGRect(x: 50, y: 100, width: 300, height: 80)
-        tempoDisplayer.foregroundColor = UIColor.white.cgColor
-        tempoDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
     }
     
-    func showPoints(color: UIColor, point: CGPoint, tempo: Tempo) {
+    func showPoints(color: UIColor, point: BufferPoint, tempo: Tempo) {
         overlayLayer.fillColor = color.cgColor
-        coordsDisplayer.fontSize = 24
-        let coordsDisplay = "x: \((round((point.x)*1000))/1000), y: \((round((point.y)*1000))/1000)"
-        let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
+        coordsDisplayer.fontSize = 16
+        
+        let x = (round((point.filteredPoint.x)*1000))/1000
+        let y = (round((point.filteredPoint.y)*1000))/1000
+        let ax = (round((point.filteredAcceleration.dx)*1000))/1000
+        let ay = (round((point.filteredAcceleration.dy)*1000))/1000
+        
+        let coordsDisplay = "x: \(x), y: \(y), xAcc: \(ax), yAcc: \(ay)"
+        // let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
         coordsDisplayer.string = coordsDisplay
         CATransaction.begin()
         CATransaction.setDisableActions(true)

@@ -9,7 +9,7 @@ import AVFoundation
 import Vision
 
 class CameraViewController: UIViewController {
-
+    
     private var cameraView: CameraView { view as! CameraView }
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
@@ -21,22 +21,35 @@ class CameraViewController: UIViewController {
     private var lastDrawPoint: CGPoint?
     private var isFirstSegment = true
     private var lastObservationTimestamp = Date()
+    private let parameters = Parameters()
+    private var beatBuffer = BeatBuffer(capacity: 300)
     
     private var detection = (120.0,4,1)
-    private var beatBuffer = BeatBuffer(capacity: Parameters().bufferCapacity)
-
+    
     override func viewDidAppear(_ animated: Bool) {
+        
         super.viewDidAppear(animated)
+        
         do {
+            
             if cameraFeedSession == nil {
+                
                 cameraView.previewLayer.videoGravity = .resizeAspectFill
+                
                 try setupAVSession()
+                
                 cameraView.previewLayer.session = cameraFeedSession
+                
             }
+            
             cameraFeedSession?.startRunning()
+            
         } catch {
+            
             AppError.display(error, inViewController: self)
+            
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,49 +89,43 @@ class CameraViewController: UIViewController {
         }
         session.commitConfiguration()
         cameraFeedSession = session
-}
+    }
     
     func processPoint(point: CGPoint?) {
         // Check that we have both points.
-        guard let newPoint = point else {
-            // If there were no observations for more than 3 seconds reset beat buffer.
-            if Date().timeIntervalSince(lastObservationTimestamp) > 3 {
-                beatBuffer.clear()
-            }
-            return
-        }
+        guard let newPoint = point else { return }
         
-        // Convert points from AVFoundation coordinates to UIKit coordinates.
-        let previewLayer = cameraView.previewLayer
+        // Convert points from AVFoundation coordinates to UIKit coordinates
         //let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: newPoint)
         
         // add new points to beat buffer
         let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
-        beatBuffer.addPoint(nextPoint: newBufferPoint)
+        beatBuffer.addPoint(currentPoint: newBufferPoint)
         let newTempo = beatBuffer.getTempo()
         
-        cameraView.showPoints(color: .clear, point: newPoint, tempo: newTempo)
+        // MARK: START HERE ONCE YOU'RE READY TO SEND MIDI TEMPO INFO
+        cameraView.showPoints(color: .clear, point: newBufferPoint, tempo: newTempo)
         
-}
+    }
     
-}
-
-// modified from https://developer.apple.com/documentation/vision/detecting-human-body-poses-in-images with suggestions from Google Gemini
-func processObservation(_ observation: VNHumanHandPoseObservation) -> CGPoint? {
-    
-    // Retrieve all recognized points from the observation.
-    guard let recognizedPoints = try? observation.recognizedPoints(.all) else { return nil }
-    
-    // Get the specific wrist point.
-    guard let wristPoint = recognizedPoints[.wrist] else { return nil }
-    
-    // Check confidence. If 0.2, the point wasn't reliably detected.
-    guard wristPoint.confidence >= Parameters().visionObservationConfidence else { return nil }
-    
-    // Convert points from Vision coordinates to AVFoundation coordinates.
-    let convertedWristPoint = CGPoint(x: wristPoint.location.x, y: 1 - wristPoint.location.y)
-    
-    return convertedWristPoint
+    // modified from https://developer.apple.com/documentation/vision/detecting-human-body-poses-in-images with suggestions from Google Gemini
+    func processObservation(_ observation: VNHumanHandPoseObservation) -> CGPoint? {
+        
+        // Retrieve all recognized points from the observation.
+        guard let recognizedPoints = try? observation.recognizedPoints(.all) else { return nil }
+        
+        // Get the specific wrist point.
+        guard let wristPoint = recognizedPoints[.wrist] else { return nil }
+        
+        // Check confidence. If 0.2, the point wasn't reliably detected.
+        guard wristPoint.confidence >= parameters.visionObservationConfidence else { return nil }
+        
+        // Convert points from Vision coordinates to AVFoundation coordinates.
+        let convertedWristPoint = CGPoint(x: wristPoint.location.x, y: 1 - wristPoint.location.y)
+        
+        return convertedWristPoint
+        
+    }
     
 }
 
@@ -130,10 +137,11 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         var wrist: CGPoint?
 
         defer {
-            DispatchQueue.main.sync {
+            
+            DispatchQueue.main.async {
                 self.processPoint(point: wrist)
             }
-            //self.detection = self.beatBuffer.getTempo()
+            
         }
 
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
@@ -150,6 +158,8 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // processObservation returns an optional CGPoint; if nil, show an error and leave wrist as nil - Copilot assistance
             if let wristPoint = processObservation(observation) {
                 wrist = wristPoint
+                // update timestamp upon successful detection of a wrist point
+                lastObservationTimestamp = Date()
             } else {
                 // removed this error for now because i thought it might be getting in the way of the detection logic
                 /* let error = AppError.poseEstimation(reason: "No wrist point reliably detected")
