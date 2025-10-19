@@ -27,6 +27,7 @@ struct BufferPoint {
     var measuredPoint = CGPoint()
     var filteredPoint = CGPoint()
     var time = Date()
+    var dt = Double()
     var velocity = CGVector()
     var filteredAcceleration = CGVector()
     var isBeat = false
@@ -36,6 +37,7 @@ struct BufferPoint {
         self.measuredPoint = point
         self.filteredPoint = point
         self.time = time
+        self.dt = 0.0
         self.velocity = .zero
         self.filteredAcceleration = .zero
     }
@@ -67,15 +69,15 @@ class BeatBuffer {
     }
     
     // revised ring buffer var names and array arithmetic with Copilot
-    public func addPoint(currentPoint: BufferPoint) {
+    public func addPoint(currentPoint: BufferPoint) -> BufferPoint {
         var p = currentPoint
-        guard capacity > 0 else { return }
+        guard capacity > 0 else { return p }
         
         // if empty initialize one element without filtering or calculating velocity or acceleration and return so velocity can be calculated next
         if data.isEmpty {
             self.data.append(p)
             headPtr = data.count % capacity
-            return
+            return p
         }
         
         // index of previous element
@@ -83,7 +85,8 @@ class BeatBuffer {
         let prev = data[lastIndex]
         
         // calculate time interval—copilot suggested /0 safeguard
-        let dt = max(1e-6, p.time.timeIntervalSince(prev.time))
+        p.dt = max(1e-6, p.time.timeIntervalSince(prev.time))
+        let dt = p.dt
         
         // apply stronger filter to points
         let fx = applyFilter(value: p.measuredPoint.x, previousValue: prev.filteredPoint.x, weight: parameters.pointFilterWeight)
@@ -118,12 +121,13 @@ class BeatBuffer {
             self.data[headPtr] = p
         }
 
-        return
+        return p
     }
     
     // I learned about the EMA filter using this video https://www.youtube.com/watch?v=iPYacJZM5Z0
     public func applyFilter(value: Double, previousValue: Double, weight: Double) -> Double {
-        return ((1.0 - weight) * value + weight * previousValue)
+        let filteredValue = ((1.0 - weight) * value + weight * previousValue)
+        return filteredValue
     }
     
     public func head(h: Int) -> BufferPoint {

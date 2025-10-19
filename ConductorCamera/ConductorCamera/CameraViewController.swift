@@ -100,11 +100,11 @@ class CameraViewController: UIViewController {
         
         // add new points to beat buffer
         let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
-        beatBuffer.addPoint(currentPoint: newBufferPoint)
+        let newProcessedPoint = beatBuffer.addPoint(currentPoint: newBufferPoint)
         let newTempo = beatBuffer.getTempo()
         
         // MARK: START HERE ONCE YOU'RE READY TO SEND MIDI TEMPO INFO
-        cameraView.showPoints(color: .clear, point: newBufferPoint, tempo: newTempo)
+        cameraView.showPoints(color: .clear, point: newProcessedPoint, tempo: newTempo)
         
     }
     
@@ -160,13 +160,6 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 wrist = wristPoint
                 // update timestamp upon successful detection of a wrist point
                 lastObservationTimestamp = Date()
-            } else {
-                // removed this error for now because i thought it might be getting in the way of the detection logic
-                /* let error = AppError.poseEstimation(reason: "No wrist point reliably detected")
-                DispatchQueue.main.async {
-                    error.displayInViewController(self)
-                } */
-                // wrist remains nil and will be handled in processPoint - Copilot assistance
             }
             
             } catch {

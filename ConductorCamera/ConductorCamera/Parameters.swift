@@ -12,7 +12,7 @@ public struct Parameters {
     public let frameRate = 30.0 // how do i actually maniuplate the camera frame rate?
     public let maxObservationWindow = 10.0
     public let pointFilterWeight = 0.8
-    public let accelerationFilterWeight = 0.2
+    public let accelerationFilterWeight = 0.5
     public let beatThreshold = 0
     public let tempoRange = (60,240)
     public let tempoHysterisis = 0

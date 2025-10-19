@@ -53,10 +53,10 @@ class CameraView: UIView {
         overlayLayer.fillColor = color.cgColor
         coordsDisplayer.fontSize = 16
         
-        let x = (round((point.filteredPoint.x)*1000))/1000
-        let y = (round((point.filteredPoint.y)*1000))/1000
         let ax = (round((point.filteredAcceleration.dx)*1000))/1000
         let ay = (round((point.filteredAcceleration.dy)*1000))/1000
+        let x = (round((point.filteredPoint.x)*1000))/1000
+        let y = (round((point.filteredPoint.y)*1000))/1000
         
         let coordsDisplay = "x: \(x), y: \(y), xAcc: \(ax), yAcc: \(ay)"
         // let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
