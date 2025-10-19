@@ -123,7 +123,7 @@ class BeatBuffer {
     
     // I learned about the EMA filter using this video https://www.youtube.com/watch?v=iPYacJZM5Z0
     public func applyFilter(value: Double, previousValue: Double, weight: Double) -> Double {
-        return (weight * value + (1.0 - weight) * previousValue)
+        return ((1.0 - weight) * value + weight * previousValue)
     }
     
     public func head(h: Int) -> BufferPoint {
