@@ -11,6 +11,7 @@ class CameraView: UIView {
 
     private var overlayLayer = CAShapeLayer()
     private var coordsDisplayer = CATextLayer()
+    private var accDisplayer = CATextLayer()
     private var tempoDisplayer = CATextLayer()
 
     var previewLayer: AVCaptureVideoPreviewLayer {
@@ -47,9 +48,18 @@ class CameraView: UIView {
         coordsDisplayer.frame = CGRect(x: 10, y: 100, width: 300, height: 40)
         coordsDisplayer.foregroundColor = UIColor.white.cgColor
         coordsDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
+        
+        accDisplayer.frame = CGRect(x: 10, y: 200, width: 300, height: 40)
+        accDisplayer.foregroundColor = UIColor.white.cgColor
+        accDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
+        
+        tempoDisplayer.frame = CGRect(x: 10, y: 300, width: 300, height: 40)
+        tempoDisplayer.foregroundColor = UIColor.white.cgColor
+        tempoDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
     }
     
-    func showPoints(color: UIColor, point: BufferPoint, tempo: Tempo) {
+    func showPoints(color: UIColor, point: BufferPoint) {
+        
         overlayLayer.fillColor = color.cgColor
         coordsDisplayer.fontSize = 16
         
@@ -58,9 +68,12 @@ class CameraView: UIView {
         let x = (round((point.filteredPoint.x)*1000))/1000
         let y = (round((point.filteredPoint.y)*1000))/1000
         
-        let coordsDisplay = "x: \(x), y: \(y), xAcc: \(ax), yAcc: \(ay)"
-        // let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
+        let coordsDisplay = "x: \(x), y: \(y)"
+        let accDisplay = "xAcc: \(ax), yAcc: \(ay)"
+        let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
         coordsDisplayer.string = coordsDisplay
+        accDisplayer.string = accDisplay
+        tempoDisplayer.string = tempoDisplay
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         CATransaction.commit()

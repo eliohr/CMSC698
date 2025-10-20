@@ -11,9 +11,10 @@ public struct Parameters {
     // buffer capacity will end up being frameRate * maxObservationWindow, but I can't set it from this class because it's initialized BeatBuffer before self is available
     public let frameRate = 30.0 // how do i actually maniuplate the camera frame rate?
     public let maxObservationWindow = 10.0
-    public let pointFilterWeight = 0.8
-    public let accelerationFilterWeight = 0.5
+    public let timeFilterWeight = 0.5
+    public let pointFilterWeight = 0.9
+    public let accelerationFilterWeight = 0.7
     public let beatThreshold = 0
     public let tempoRange = (60,240)
-    public let tempoHysterisis = 0
+    public let tempoHysterisis = 0 // will consider this later
 }

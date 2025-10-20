@@ -27,17 +27,18 @@ struct BufferPoint {
     var measuredPoint = CGPoint()
     var filteredPoint = CGPoint()
     var time = Date()
-    var dt = Double()
+    var filteredTimeInterval = Double()
     var velocity = CGVector()
     var filteredAcceleration = CGVector()
-    var isBeat = false
-    var isDownbeat = false
+    var beatCandidate = false // acceleration has crossed and returned from threshold
+    var isBeat = false // acceleration over the threshold for the longest time of any beat candidates within the tempo range
+    var isDownbeat = false // y-maximum was reached (this stays on until another beat is detected so there will be many non-beat downbeats but they won't be members of the final beat-only buffer)
     
     init(point: CGPoint = CGPoint(), time: Date = Date()) {
         self.measuredPoint = point
         self.filteredPoint = point
         self.time = time
-        self.dt = 0.0
+        self.filteredTimeInterval = 0.0
         self.velocity = .zero
         self.filteredAcceleration = .zero
     }
@@ -85,8 +86,8 @@ class BeatBuffer {
         let prev = data[lastIndex]
         
         // calculate time interval—copilot suggested /0 safeguard
-        p.dt = max(1e-6, p.time.timeIntervalSince(prev.time))
-        let dt = p.dt
+        let dt = max(1e-6, p.time.timeIntervalSince(prev.time))
+        p.filteredTimeInterval = applyFilter(value: dt, previousValue: prev.filteredTimeInterval, weight: parameters.timeFilterWeight)
         
         // apply stronger filter to points
         let fx = applyFilter(value: p.measuredPoint.x, previousValue: prev.filteredPoint.x, weight: parameters.pointFilterWeight)
@@ -130,11 +131,7 @@ class BeatBuffer {
         return filteredValue
     }
     
-    public func head(h: Int) -> BufferPoint {
-        return data[h]
-    }
-    
-    public func getTempo() -> (Tempo) {
+    public func getTempo() async -> (Tempo) {
         // insert actual tempo determination logic here
         let helloWorld = Tempo(bpm: 120.0, meter: 4, beat: 1)
         return (helloWorld)

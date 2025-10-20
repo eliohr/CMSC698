@@ -24,7 +24,8 @@ class CameraViewController: UIViewController {
     private let parameters = Parameters()
     private var beatBuffer = BeatBuffer(capacity: 300)
     
-    private var detection = (120.0,4,1)
+    private var newProcessedPoint = BufferPoint()
+    private var newTempo = Tempo(bpm: 120.0, meter: 4, beat: 1)
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -95,16 +96,12 @@ class CameraViewController: UIViewController {
         // Check that we have both points.
         guard let newPoint = point else { return }
         
-        // Convert points from AVFoundation coordinates to UIKit coordinates
-        //let wristPointConverted = previewLayer.layerPointConverted(fromCaptureDevicePoint: newPoint)
-        
         // add new points to beat buffer
         let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
-        let newProcessedPoint = beatBuffer.addPoint(currentPoint: newBufferPoint)
-        let newTempo = beatBuffer.getTempo()
+        newProcessedPoint = beatBuffer.addPoint(currentPoint: newBufferPoint)
         
         // MARK: START HERE ONCE YOU'RE READY TO SEND MIDI TEMPO INFO
-        cameraView.showPoints(color: .clear, point: newProcessedPoint, tempo: newTempo)
+        cameraView.showPoints(color: .clear, point: newProcessedPoint)
         
     }
     
@@ -142,6 +139,10 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 self.processPoint(point: wrist)
             }
             
+            DispatchQueue.main.async {
+                newTempo = beatBuffer.getTempo()
+            }
+            
         }
 
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
@@ -149,8 +150,6 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // Perform VNDetectHumanHandPoseRequest
             try handler.perform([handPoseRequest])
             // Continue only when a body pose was detected in the frame.
-            // The Apple template dealing with hands from which I'm working says, "since we set the maximumHandCount property of the request to 1, there will be at most one observation," but I'll leave this in unless it ends up not detecting anything.
-       
             guard let observation = handPoseRequest.results?.first else {
                 return
             }
