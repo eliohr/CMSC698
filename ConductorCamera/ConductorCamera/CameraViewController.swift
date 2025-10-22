@@ -17,12 +17,12 @@ class CameraViewController: UIViewController {
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
     private let drawPath = UIBezierPath()
-    // private var evidenceBuffer = [PeakDetectionAlgorithm.PointsPair]()
     private var lastDrawPoint: CGPoint?
     private var isFirstSegment = true
     private var lastObservationTimestamp = Date()
     private let parameters = Parameters()
     private var beatBuffer = BeatBuffer(capacity: 300)
+    private let midiDevice = MidiDevice()
     
     private var newProcessedPoint = BufferPoint()
     private var newTempo = Tempo(bpm: 120.0, meter: 4, beat: 1)
@@ -139,8 +139,14 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 self.processPoint(point: wrist)
             }
             
-            DispatchQueue.main.async {
-                newTempo = beatBuffer.getTempo()
+            // GCD async thread-switching syntax from Gemini
+            DispatchQueue.global(qos: .userInitiated).async {
+                let newTempo = self.beatBuffer.getTempo()
+                
+                // Gemini recommended swtiching to the main thread to broadcast midi information
+                DispatchQueue.main.async {
+                    self.midiDevice.broadcastMidiTempo(tempo: newTempo)
+                }
             }
             
         }

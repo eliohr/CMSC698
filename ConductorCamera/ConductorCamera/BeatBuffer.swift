@@ -131,7 +131,7 @@ class BeatBuffer {
         return filteredValue
     }
     
-    public func getTempo() async -> (Tempo) {
+    public func getTempo() -> (Tempo) {
         // insert actual tempo determination logic here
         let helloWorld = Tempo(bpm: 120.0, meter: 4, beat: 1)
         return (helloWorld)
