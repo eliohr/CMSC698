@@ -58,6 +58,21 @@ class CameraView: UIView {
         tempoDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
     }
     
+    func showTempo(color: UIColor, tempo: Tempo) {
+        
+        overlayLayer.fillColor = color.cgColor
+        tempoDisplayer.fontSize = 16
+        
+        let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
+        
+        tempoDisplayer.string = tempoDisplay
+        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        CATransaction.commit()
+        
+    }
+    
     func showPoints(color: UIColor, point: BufferPoint) {
         
         overlayLayer.fillColor = color.cgColor
@@ -68,14 +83,15 @@ class CameraView: UIView {
         let x = (round((point.filteredPoint.x)*1000))/1000
         let y = (round((point.filteredPoint.y)*1000))/1000
         
-        let coordsDisplay = "x: \(x), y: \(y)"
+        let coordsDisplay = "x: \(ax), y: \(ay)"
         let accDisplay = "xAcc: \(ax), yAcc: \(ay)"
-        let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
+        
         coordsDisplayer.string = coordsDisplay
         accDisplayer.string = accDisplay
-        tempoDisplayer.string = tempoDisplay
+        
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         CATransaction.commit()
+        
     }
 }
