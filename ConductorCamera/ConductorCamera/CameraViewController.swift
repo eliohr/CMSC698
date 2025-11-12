@@ -27,6 +27,14 @@ class CameraViewController: UIViewController {
     private var newProcessedPoint = BufferPoint()
     private var newTempo = Tempo(bpm: 120.0, meter: 4, beat: 1)
     
+    // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+    @IBAction
+    func showBluetoothMIDILocalSetup(_ sender: Any) {
+        let sheetViewController = BTMIDIPeripheralViewController(nibName: nil, bundle: nil)
+        present(sheetViewController, animated: true, completion: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)

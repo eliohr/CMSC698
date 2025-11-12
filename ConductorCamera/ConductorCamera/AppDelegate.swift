@@ -2,6 +2,7 @@
 See the LICENSE.txt file for this sample’s licensing information.
 
 Abstract: The app's delegate object.
+MIDI manager modified from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
 */
 
 import UIKit
@@ -9,10 +10,41 @@ import Vision
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+<<<<<<< Updated upstream
+=======
+    
+    // MARK: - instantiate midi manager
+    let midiManager = MIDIManager(
+        clientName: "midiManager",
+        model: "GestureControl",
+        manufacturer: "Eli Orion"
+    )
+>>>>>>> Stashed changes
 
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+
+        // start midi manager
+        do {
+            try midiManager.start()
+        } catch {
+            print("Error while starting MIDI manager: ", error.localizedDescription)
+        }
+        
+        // set up a broadcaster that can send events to all MIDI inputs
+        do {
+            try midiManager.addOutputConnection(
+                to: .allInputs, // auto-connect to all inputs that may appear
+                tag: "Broadcaster",
+                filter: .owned() // don't allow self-created virtual endpoints
+            )
+        } catch {
+            print(
+                "Error setting up managed MIDI all-listener connection:",
+                error.localizedDescription
+            )
+        }
         
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
