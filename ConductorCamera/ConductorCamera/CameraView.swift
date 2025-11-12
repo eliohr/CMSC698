@@ -83,7 +83,7 @@ class CameraView: UIView {
         let x = (round((point.filteredPoint.x)*1000))/1000
         let y = (round((point.filteredPoint.y)*1000))/1000
         
-        let coordsDisplay = "x: \(ax), y: \(ay)"
+        let coordsDisplay = "x: \(x), y: \(y)"
         let accDisplay = "xAcc: \(ax), yAcc: \(ay)"
         
         coordsDisplayer.string = coordsDisplay

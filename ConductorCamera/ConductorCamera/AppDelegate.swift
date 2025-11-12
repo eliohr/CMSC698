@@ -6,9 +6,24 @@ Abstract: The app's delegate object.
 
 import UIKit
 import Vision
+import MIDIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    // MARK: - instantiate and start midi manager
+    // https://orchetect.github.io/MIDIKit/documentation/midikitio/midimanager/
+    let midiManager = MIDIManager(
+        clientName: "midiManager",
+        model: "GestureControl",
+        manufacturer: "Eli Orion"
+    )
+
+    do {
+        try midiManager.start()
+    } catch {
+        print("Error while starting MIDI manager: \(error)")
+    }
 
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
@@ -18,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
 
 // MARK: - Errors
 

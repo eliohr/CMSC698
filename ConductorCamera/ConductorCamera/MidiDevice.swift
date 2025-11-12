@@ -6,11 +6,4 @@
 //  Copyright © 2025 Apple. All rights reserved.
 //
 
-class MidiDevice {
-    
-    public func broadcastMidiTempo(tempo: Tempo) {
-        // I will implement this method once beat detection is robust
-        return
-    }
-    
-}
+

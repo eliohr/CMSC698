@@ -22,7 +22,7 @@ class CameraViewController: UIViewController {
     private var lastObservationTimestamp = Date()
     private let parameters = Parameters()
     private var beatBuffer = BeatBuffer(capacity: 300)
-    private let midiDevice = MidiDevice()
+    // private let midiDevice = MidiDevice()
     
     private var newProcessedPoint = BufferPoint()
     private var newTempo = Tempo(bpm: 120.0, meter: 4, beat: 1)
@@ -176,7 +176,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 
                 // Gemini recommended swtiching to the main thread to broadcast midi information
                 DispatchQueue.main.async {
-                    self.midiDevice.broadcastMidiTempo(tempo: newTempo)
+                    // self.midiDevice.broadcastMidiTempo(tempo: newTempo)
                 }
             }
             
