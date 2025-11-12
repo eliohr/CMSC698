@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         model: "GestureControl",
         manufacturer: "Eli Orion"
     )
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     func application(_ application: UIApplication,
