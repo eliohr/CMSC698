@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         manufacturer: "Eli Orion"
     )
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
