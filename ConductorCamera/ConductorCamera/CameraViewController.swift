@@ -21,11 +21,9 @@ class CameraViewController: UIViewController {
     private var isFirstSegment = true
     private var lastObservationTimestamp = Date()
     private let parameters = Parameters()
-    private var beatBuffer = BeatBuffer(capacity: 300)
     private let midiDevice = MidiDevice()
     
-    private var newProcessedPoint = BufferPoint()
-    private var newTempo = Tempo(bpm: 120.0, meter: 4, beat: 1)
+    private var visionController = VisionController()
     
     // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -38,32 +36,28 @@ class CameraViewController: UIViewController {
     @IBAction func sendTestMIDIEvent(_ sender: Any) {
         let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
         try? conn?.send(event: .noteOn(60, velocity: .midi1(64), channel: 0))
+        print("sending test signal")
+        
+        // wait a second before turning off the note Gemini async syntax ssistance
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         super.viewDidAppear(animated)
-        
         do {
             
             if cameraFeedSession == nil {
-                
                 cameraView.previewLayer.videoGravity = .resizeAspectFill
-                
                 try setupAVSession()
-                
                 cameraView.previewLayer.session = cameraFeedSession
-                
             }
-            
             cameraFeedSession?.startRunning()
-            
         } catch {
-            
             AppError.display(error, inViewController: self)
-            
         }
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -105,21 +99,18 @@ class CameraViewController: UIViewController {
         cameraFeedSession = session
     }
     
-    func processPoint(point: CGPoint?) {
+    func processPoints(point: CGPoint?) {
         // Check that we have both points.
         guard let newPoint = point else { return }
         
         // add new points to beat buffer
-        let newBufferPoint = BufferPoint(point: newPoint, time: lastObservationTimestamp)
+        let newVisionCalculation = VisionCalculation(point: newPoint)
         newProcessedPoint = beatBuffer.addPoint(currentPoint: newBufferPoint)
-        
-        // MARK: START HERE ONCE YOU'RE READY TO SEND MIDI TEMPO INFO
-        cameraView.showPoints(color: .clear, point: newProcessedPoint)
         
     }
     
     // modified from https://developer.apple.com/documentation/vision/detecting-human-body-poses-in-images with suggestions from Google Gemini
-    func processObservation(_ observation: VNHumanHandPoseObservation) -> CGPoint? {
+    func processObservationn(_ observation: VNHumanHandPoseObservation) -> CGPoint? {
         
         // Retrieve all recognized points from the observation.
         guard let recognizedPoints = try? observation.recognizedPoints(.all) else { return nil }
@@ -144,12 +135,14 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
         // wrist may be nil when no reliable point was detected; processPoint handles nils - Copilot assistance
-        var wrist: CGPoint?
+        var recognizedPoints: [VNHumanBodyPoseObservation.JointName : VNRecognizedPoint]?
 
         defer {
             
             DispatchQueue.main.async {
-                self.processPoint(point: wrist)
+                let processedPoints = visionController.processPoints(points: recognizedPoints)
+                // MARK: START HERE ONCE YOU'RE READY TO SEND MIDI TEMPO INFO
+                cameraView.showPoints(color: .clear, points: processedPoints)
             }
             
             // GCD async thread-switching syntax from Gemini
@@ -174,7 +167,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
             
             // processObservation returns an optional CGPoint; if nil, show an error and leave wrist as nil - Copilot assistance
-            if let wristPoint = processObservation(observation) {
+            if let observation = processObservation(observation) {
                 wrist = wristPoint
                 // update timestamp upon successful detection of a wrist point
                 lastObservationTimestamp = Date()
