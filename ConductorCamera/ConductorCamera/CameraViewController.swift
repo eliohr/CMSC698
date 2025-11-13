@@ -29,10 +29,15 @@ class CameraViewController: UIViewController {
     
     // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    @IBAction
-    func showBluetoothMIDILocalSetup(_ sender: Any) {
+    
+    @IBAction func showBluetoothMIDILocalSetup(_ sender: Any) {
         let sheetViewController = BTMIDIPeripheralViewController(nibName: nil, bundle: nil)
         present(sheetViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func sendTestMIDIEvent(_ sender: Any) {
+        let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
+        try? conn?.send(event: .noteOn(60, velocity: .midi1(64), channel: 0))
     }
     
     override func viewDidAppear(_ animated: Bool) {

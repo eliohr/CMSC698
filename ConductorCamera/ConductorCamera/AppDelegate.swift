@@ -7,26 +7,20 @@ MIDI manager modified from https://github.com/orchetect/MIDIKit/tree/main/Exampl
 
 import UIKit
 import Vision
+import MIDIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-<<<<<<< Updated upstream
-=======
+    
+    var window: UIWindow?
     
     // MARK: - instantiate midi manager
     let midiManager = MIDIManager(
         clientName: "midiManager",
         model: "GestureControl",
         manufacturer: "Eli Orion"
-    )
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-
+        )
+    
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {

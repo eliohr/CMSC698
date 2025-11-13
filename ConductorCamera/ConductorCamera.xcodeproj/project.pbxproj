@@ -7,8 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		901362082EA982360024832C /* MidiDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901362072EA982330024832C /* MidiDevice.swift */; };
+		901362082EA982360024832C /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901362072EA982330024832C /* MIDIDevice.swift */; };
 		904C6CE82EA2B34500C8CB0D /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904C6CE72EA2B34100C8CB0D /* Parameters.swift */; };
+		9067D1282EC55F98008D6D33 /* MIDIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1272EC55F98008D6D33 /* MIDIKit */; };
+		9067D12A2EC55F98008D6D33 /* MIDIKitControlSurfaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1292EC55F98008D6D33 /* MIDIKitControlSurfaces */; };
+		9067D12C2EC55F98008D6D33 /* MIDIKitCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D12B2EC55F98008D6D33 /* MIDIKitCore */; };
+		9067D12E2EC55F98008D6D33 /* MIDIKitIO in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D12D2EC55F98008D6D33 /* MIDIKitIO */; };
+		9067D1302EC55F98008D6D33 /* MIDIKitSMF in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D12F2EC55F98008D6D33 /* MIDIKitSMF */; };
+		9067D1322EC55F98008D6D33 /* MIDIKitSync in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1312EC55F98008D6D33 /* MIDIKitSync */; };
+		9067D1342EC55F98008D6D33 /* MIDIKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1332EC55F98008D6D33 /* MIDIKitUI */; };
+		9067D1362EC56248008D6D33 /* BTMIDIPeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9067D1352EC56248008D6D33 /* BTMIDIPeripheralViewController.swift */; };
 		90F64AFB2EA17A8300CA0097 /* BeatBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */; };
 		C475655D248AEBD900F111B8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655A248AEBD800F111B8 /* CameraView.swift */; };
 		C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655C248AEBD900F111B8 /* CameraViewController.swift */; };
@@ -23,8 +31,9 @@
 		131D672E55F74A60D83C1534 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		26547FACF06954AF783E23D9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		901362072EA982330024832C /* MidiDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MidiDevice.swift; sourceTree = "<group>"; };
+		901362072EA982330024832C /* MIDIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIDevice.swift; sourceTree = "<group>"; };
 		904C6CE72EA2B34100C8CB0D /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		9067D1352EC56248008D6D33 /* BTMIDIPeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTMIDIPeripheralViewController.swift; sourceTree = "<group>"; };
 		90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeatBuffer.swift; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		C475655C248AEBD900F111B8 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -43,6 +52,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9067D1302EC55F98008D6D33 /* MIDIKitSMF in Frameworks */,
+				9067D12E2EC55F98008D6D33 /* MIDIKitIO in Frameworks */,
+				9067D1342EC55F98008D6D33 /* MIDIKitUI in Frameworks */,
+				9067D12C2EC55F98008D6D33 /* MIDIKitCore in Frameworks */,
+				9067D1322EC55F98008D6D33 /* MIDIKitSync in Frameworks */,
+				9067D12A2EC55F98008D6D33 /* MIDIKitControlSurfaces in Frameworks */,
+				9067D1282EC55F98008D6D33 /* MIDIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,11 +103,12 @@
 		C4EB82E9248AEB7B00CD7D41 /* ConductorCamera */ = {
 			isa = PBXGroup;
 			children = (
+				9067D1352EC56248008D6D33 /* BTMIDIPeripheralViewController.swift */,
 				90F64AF92EA17A8300CA0097 /* BeatBuffer.swift */,
 				C475655A248AEBD800F111B8 /* CameraView.swift */,
 				904C6CE72EA2B34100C8CB0D /* Parameters.swift */,
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
-				901362072EA982330024832C /* MidiDevice.swift */,
+				901362072EA982330024832C /* MIDIDevice.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
 				C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */,
 				C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */,
@@ -148,6 +165,9 @@
 				Base,
 			);
 			mainGroup = C4EB82DE248AEB7B00CD7D41;
+			packageReferences = (
+				9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */,
+			);
 			productRefGroup = C4EB82E8248AEB7B00CD7D41 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -175,9 +195,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				901362082EA982360024832C /* MidiDevice.swift in Sources */,
+				901362082EA982360024832C /* MIDIDevice.swift in Sources */,
 				90F64AFB2EA17A8300CA0097 /* BeatBuffer.swift in Sources */,
 				C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */,
+				9067D1362EC56248008D6D33 /* BTMIDIPeripheralViewController.swift in Sources */,
 				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
 				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,
 				C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */,
@@ -401,6 +422,55 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/orchetect/MIDIKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9067D1272EC55F98008D6D33 /* MIDIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */;
+			productName = MIDIKit;
+		};
+		9067D1292EC55F98008D6D33 /* MIDIKitControlSurfaces */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */;
+			productName = MIDIKitControlSurfaces;
+		};
+		9067D12B2EC55F98008D6D33 /* MIDIKitCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */;
+			productName = MIDIKitCore;
+		};
+		9067D12D2EC55F98008D6D33 /* MIDIKitIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */;
+			productName = MIDIKitIO;
+		};
+		9067D12F2EC55F98008D6D33 /* MIDIKitSMF */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */;
+			productName = MIDIKitSMF;
+		};
+		9067D1312EC55F98008D6D33 /* MIDIKitSync */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */;
+			productName = MIDIKitSync;
+		};
+		9067D1332EC55F98008D6D33 /* MIDIKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9067D1262EC55F98008D6D33 /* XCRemoteSwiftPackageReference "MIDIKit" */;
+			productName = MIDIKitUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C4EB82DF248AEB7B00CD7D41 /* Project object */;
 }

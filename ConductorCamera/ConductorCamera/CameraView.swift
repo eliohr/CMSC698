@@ -70,10 +70,10 @@ class CameraView: UIView {
         
         let coordsDisplay = "x: \(x), y: \(y)"
         let accDisplay = "xAcc: \(ax), yAcc: \(ay)"
-        let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
+        // let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
         coordsDisplayer.string = coordsDisplay
         accDisplayer.string = accDisplay
-        tempoDisplayer.string = tempoDisplay
+        // tempoDisplayer.string = tempoDisplay
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         CATransaction.commit()
