@@ -58,6 +58,7 @@ enum AppError: Error {
     case visionError(error: Error)
     case otherError(error: Error)
     case poseEstimation(reason: String)
+    case midiBroadcast(reason: String)
     
     static func display(_ error: Error, inViewController viewController: UIViewController) {
         if let appError = error as? AppError {
@@ -82,6 +83,9 @@ enum AppError: Error {
             message = error.localizedDescription
         case .poseEstimation(let reason):
             title = "Pose Estimation Error"
+            message = reason
+        case .midiBroadcast(let reason):
+            title = "MIDI Broadcast Error"
             message = reason
         }
         

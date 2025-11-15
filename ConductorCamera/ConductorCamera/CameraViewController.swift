@@ -19,31 +19,13 @@ class CameraViewController: UIViewController {
     private let drawPath = UIBezierPath()
     private var lastDrawPoint: CGPoint?
     private var isFirstSegment = true
+    
+    private var observation = Observation()
     private var lastObservationTimestamp = Date()
+    
     private let parameters = Parameters()
     private let midiDevice = MidiDevice()
-    
-    private var visionController = VisionController()
-    
-    // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
-    let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    
-    @IBAction func showBluetoothMIDILocalSetup(_ sender: Any) {
-        let sheetViewController = BTMIDIPeripheralViewController(nibName: nil, bundle: nil)
-        present(sheetViewController, animated: true, completion: nil)
-    }
-    
-    @IBAction func sendTestMIDIEvent(_ sender: Any) {
-        let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
-        try? conn?.send(event: .noteOn(60, velocity: .midi1(64), channel: 0))
-        print("sending test signal")
-        
-        // wait a second before turning off the note Gemini async syntax ssistance
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
-        }
-        
-    }
+    private let visionController = VisionController()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -99,79 +81,51 @@ class CameraViewController: UIViewController {
         cameraFeedSession = session
     }
     
-    func processPoints(point: CGPoint?) {
-        // Check that we have both points.
-        guard let newPoint = point else { return }
-        
-        // add new points to beat buffer
-        let newVisionCalculation = VisionCalculation(point: newPoint)
-        newProcessedPoint = beatBuffer.addPoint(currentPoint: newBufferPoint)
-        
-    }
-    
-    // modified from https://developer.apple.com/documentation/vision/detecting-human-body-poses-in-images with suggestions from Google Gemini
-    func processObservationn(_ observation: VNHumanHandPoseObservation) -> CGPoint? {
-        
-        // Retrieve all recognized points from the observation.
-        guard let recognizedPoints = try? observation.recognizedPoints(.all) else { return nil }
-        
-        // Get the specific wrist point.
-        guard let wristPoint = recognizedPoints[.wrist] else { return nil }
-        
-        // Check confidence. If 0.2, the point wasn't reliably detected.
-        guard wristPoint.confidence >= parameters.visionObservationConfidence else { return nil }
-        
-        // Convert points from Vision coordinates to AVFoundation coordinates.
-        let convertedWristPoint = CGPoint(x: wristPoint.location.x, y: 1 - wristPoint.location.y)
-        
-        return convertedWristPoint
-        
-    }
-    
 }
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        // wrist may be nil when no reliable point was detected; processPoint handles nils - Copilot assistance
-        var recognizedPoints: [VNHumanBodyPoseObservation.JointName : VNRecognizedPoint]?
+        // may be nil when no reliable point was detected
+        var recognizedPoints: [VNRecognizedPoint?]?
 
         defer {
             
             DispatchQueue.main.async {
-                let processedPoints = visionController.processPoints(points: recognizedPoints)
-                // MARK: START HERE ONCE YOU'RE READY TO SEND MIDI TEMPO INFO
-                cameraView.showPoints(color: .clear, points: processedPoints)
+                self.midiDevice.broadcastState()
             }
             
-            // GCD async thread-switching syntax from Gemini
+            // Gemini assistance with GCD async to keep this from adding latency to the MIDI broadcast thread
             DispatchQueue.global(qos: .userInitiated).async {
-                let newTempo = self.beatBuffer.getTempo()
-                
-                // Gemini recommended swtiching to the main thread to broadcast midi information
-                DispatchQueue.main.async {
-                    self.midiDevice.broadcastMidiTempo(tempo: newTempo)
-                }
+                // unwrap the optionals and send coordinates to overlay
+                let processedPoints = visionController.processPoints(points: recognizedPoints)
+                cameraView.showPoints(color: .clear, points: processedPoints)
             }
             
         }
 
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
         do {
+            
             // Perform VNDetectHumanHandPoseRequest
             try handler.perform([handPoseRequest])
-            // Continue only when a body pose was detected in the frame.
-            guard let observation = handPoseRequest.results?.first else {
+            // Continue only when a hand pose was detected in the frame.
+            guard let poseRequestResult = handPoseRequest.results?.first else {
                 return
             }
             
-            // processObservation returns an optional CGPoint; if nil, show an error and leave wrist as nil - Copilot assistance
-            if let observation = processObservation(observation) {
-                wrist = wristPoint
-                // update timestamp upon successful detection of a wrist point
-                lastObservationTimestamp = Date()
+            // processObservation returns an object of struct hand
+            guard let hand = visionController.processObservation(poseRequestResult) else {
+                print("failed to process observation")
+                return
             }
+            
+            // update timestamp upon successful observation processing
+            lastObservationTimestamp = Date()
+            
+            // send the new hand info to the midi device
+            midiDevice.updateState(hand: hand)
             
             } catch {
             cameraFeedSession?.stopRunning()
