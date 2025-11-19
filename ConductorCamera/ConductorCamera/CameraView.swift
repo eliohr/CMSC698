@@ -49,7 +49,10 @@ class CameraView: UIView {
     
     func showPoints(_ points: [CGPoint], color: UIColor) {
         pointsPath.removeAllPoints()
-        if previousPoints.isEmpty { previousPoints = points } // TODO: FIGURE OUT WHY THIS RESULTS IN A FATAL INDEX OUT OF RANGE ERROR ONLY SOMETIMES
+        
+        // TODO: FIGURE OUT WHY THIS RESULTS IN A FATAL INDEX OUT OF RANGE ERROR ONLY SOMETIMES
+        /*
+        if previousPoints.isEmpty { previousPoints = points }
         for (i, point) in points.enumerated() {
             let x = CGFloat(filter.applyFilter(value: Double(point.x), previousValue: Double(previousPoints[i].x), weight: parameters.displayFilterWeight))
             let y = CGFloat(filter.applyFilter(value: Double(point.y), previousValue: Double(previousPoints[i].y), weight: parameters.displayFilterWeight))
@@ -57,6 +60,14 @@ class CameraView: UIView {
             pointsPath.move(to: p)
             pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         }
+         */
+        
+        // no display point filtering for now
+        for point in points {
+            pointsPath.move(to: point)
+            pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+        }
+        
         overlayLayer.fillColor = color.cgColor
         CATransaction.begin()
         CATransaction.setDisableActions(true)

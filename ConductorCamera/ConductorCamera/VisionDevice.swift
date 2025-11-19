@@ -90,7 +90,7 @@ class VisionDevice {
         // the distance from the thumb tip to the index tip
         let distanceTP = hypot(dx, dy)
         
-        return Hand(x: Double(indexMCPPoint.location.x), y: Double(indexMCPPoint.location.y), d: distanceTP, c: closedness)
+        return Hand(x: Double(1-indexMCPPoint.location.y), y: Double(1-indexMCPPoint.location.x), d: distanceTP, c: closedness)
     }
     
 }

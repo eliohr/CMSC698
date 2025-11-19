@@ -25,9 +25,10 @@ class CameraViewController: UIViewController {
     
     // settings view toggle - modified from gemini generation
     @IBOutlet weak var settingsViewToggle: UIView!
-    @IBAction func openSettings(_ sender: UIButton) {
+    @IBAction func settings(_ sender: UIButton) {
         settingsViewToggle.isHidden.toggle()
     }
+    @IBOutlet weak var settings: UIButton!
     
     // midi peripheral setup and test
     @IBAction func setup(_ sender: Any) {
@@ -45,6 +46,9 @@ class CameraViewController: UIViewController {
             try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
         }
     }
+    @IBAction func optionSelection(_ sender: UIAction) {
+        print(sender.title)
+    }
     
     
     // MARK: REVIEW THIS COPIED CODE FROM THE APPLE SAMPLE APP
@@ -59,11 +63,9 @@ class CameraViewController: UIViewController {
         
         super.viewDidLoad()
         drawOverlay.frame = view.layer.bounds
-        drawOverlay.lineWidth = 5
         drawOverlay.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0.5).cgColor
-        drawOverlay.strokeColor = #colorLiteral(red: 0.6, green: 0.1, blue: 0.3, alpha: 1).cgColor
-        drawOverlay.fillColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0).cgColor
-        drawOverlay.lineCap = .round
+        settingsViewToggle.layer.zPosition = 9
+        settings.layer.zPosition = 9
         view.layer.addSublayer(drawOverlay)
         // This sample app detects one hand only.
         handPoseRequest.maximumHandCount = 1
