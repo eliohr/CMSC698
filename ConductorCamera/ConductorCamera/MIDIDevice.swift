@@ -9,11 +9,14 @@
 import UIKit
 import MIDIKit
 
-struct EventChoice {
-    
-}
-
 class MidiDevice: UIViewController {
+    
+    var attributeMIDIEvents: [HandAttribute: MIDIEvent] = [
+        .xPosition: .ControlChange(.Pan),
+        .yPosition: .PitchBend(value: 8192),
+        .closedness: .ControlChange(.ChannelVolume),
+        .thumbPointerDistance: .ControlChange(.SustainPedal),
+    ]
     
     // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -24,12 +27,15 @@ class MidiDevice: UIViewController {
         try? conn?.send(event: .cc(.expression, value: .midi1(64), channel: 0))
     }
     
-    public func updateState(hand: Hand) {
+    public func updateState(hand: Hand, from: HandAttribute, to: MIDIEvent) {
+        
+        attributeMIDIEvents[from] = to
+        
         // cursor quick integerization assistance
         print("x: \(Int(hand.mcpX * 100)), y: \(Int(hand.mcpY * 100)), c: \(Int(hand.closedness * 100)), d: \(Int(hand.distanceTP * 100))")
         
-        // todo: eventually implement a calibration mode to associate the range of x, y, c, and t values the user will send to the 0-127 midi range
-        
     }
+    
+    // todo: eventually implement a calibration mode to associate the range of x, y, c, and t values the user will send to the 0-127 midi range
     
 }

@@ -47,6 +47,14 @@ class CameraView: UIView {
         previewLayer.addSublayer(overlayLayer)
     }
     
+    // this might not be the most efficient way to do this
+    func clearPoints() {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        overlayLayer.removeFromSuperlayer()
+        CATransaction.commit()
+    }
+    
     func showPoints(_ points: [CGPoint], color: UIColor) {
         pointsPath.removeAllPoints()
         

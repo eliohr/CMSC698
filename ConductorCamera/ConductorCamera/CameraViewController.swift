@@ -8,6 +8,13 @@ import UIKit
 import AVFoundation
 import Vision
 
+enum HandAttribute: String, CaseIterable {
+    case xPosition = "x-position"
+    case yPosition = "y-position"
+    case closedness = "closedness"
+    case thumbPointerDistance = "thumb-pointer distance"
+}
+
 class CameraViewController: UIViewController {
     
     private var cameraView: CameraView { view as! CameraView }
@@ -22,6 +29,12 @@ class CameraViewController: UIViewController {
     private let parameters = Parameters()
     private let midiDevice = MidiDevice()
     private let visionDevice = VisionDevice()
+    
+    // The single, pre-populated data source for the picker
+    let midiEventOptions: [MIDIEvent] = MIDIEvent.allPickableEvents
+    
+    var handAttribute: HandAttribute = .xPosition
+    var midiEvent: MIDIEvent = .PitchBend(value: 0)
     
     // settings view toggle - modified from gemini generation
     @IBOutlet weak var settingsViewToggle: UIView!
@@ -46,13 +59,20 @@ class CameraViewController: UIViewController {
             try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
         }
     }
-    @IBAction func optionSelection(_ sender: UIAction) {
-        print(sender.title)
+    @IBOutlet weak var fromPick: UIButton!
+    
+    // Gemini assistance
+    @IBAction func fromMenu(_ sender: UIAction) {
+        let title = sender.title
+        if let selectedAttribute = HandAttribute(rawValue: title) {
+            handAttribute = selectedAttribute
+            fromPick.setTitle(selectedAttribute.rawValue, for: .normal)
+        } else {
+            print("Error: Menu item title '\(title)' does not match any HandAttribute.")
+        }
     }
+    @IBOutlet weak var toPick: UIPickerView!
     
-    
-    // MARK: REVIEW THIS COPIED CODE FROM THE APPLE SAMPLE APP
-    // idk for now it's fine but I want the ui to look very different from this so I'll get in there and figure out how that works eventually
     private let drawOverlay = CAShapeLayer()
     private let drawPath = UIBezierPath()
     private var lastDrawPoint: CGPoint?
@@ -62,14 +82,20 @@ class CameraViewController: UIViewController {
         settingsViewToggle.isHidden = true // start with settings hidden
         
         super.viewDidLoad()
+        
         drawOverlay.frame = view.layer.bounds
         drawOverlay.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0.5).cgColor
         settingsViewToggle.layer.zPosition = 9
         settings.layer.zPosition = 9
         view.layer.addSublayer(drawOverlay)
+        
         // This sample app detects one hand only.
         handPoseRequest.maximumHandCount = 1
         
+        fromPick.setTitle(handAttribute.rawValue, for: .normal)
+        
+        toPick.dataSource = self
+        toPick.delegate = self
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -145,17 +171,21 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // Gemini assistance with GCD async to keep this from adding latency to the MIDI broadcast thread
             DispatchQueue.global(qos: .userInitiated).async {
                 
-                // unwrap the optionals and send coordinates to overlay
+                // i really want clearing points to work but it doesn't
+                /*
+                if Date().timeIntervalSince(self.lastObservationTimestamp) > 2.0 {
+                    self.cameraView.clearPoints()
+                }
+                */
+                
                 let viewSize = self.cameraView.previewLayer.bounds.size
+
                 guard let recognizedPoints = recognizedPointsOp else {
                     return
                 }
-                
+
                 let processedPoints = self.visionDevice.processPoints(points: recognizedPoints, viewSize: viewSize)
-                
-                DispatchQueue.main.async {
-                    self.cameraView.showPoints(processedPoints, color: .black)
-                }
+                self.cameraView.showPoints(processedPoints, color: .black)
             }
             
         }
@@ -179,7 +209,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // send new hand info to midi device
             handOp = visionDevice.toHand(points: recognizedPoints)
             guard let h = handOp else { return }
-            midiDevice.updateState(hand: h)
+            midiDevice.updateState(hand: h, from: handAttribute, to: midiEvent)
             
             } catch {
             cameraFeedSession?.stopRunning()
@@ -191,3 +221,19 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     }
 }
 
+// Gemini generated
+extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return midiEventOptions.count
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        midiEvent = midiEventOptions[row]
+        }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let event = midiEventOptions[row]
+        return event.displayName
+    }
+}
