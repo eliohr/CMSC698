@@ -7,28 +7,16 @@
 //
 
 import UIKit
+import MIDIKit
+
+struct EventChoice {
+    
+}
 
 class MidiDevice: UIViewController {
     
     // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    
-    @IBAction func showBluetoothMIDILocalSetup(_ sender: Any) {
-        let sheetViewController = BTMIDIPeripheralViewController(nibName: nil, bundle: nil)
-        present(sheetViewController, animated: true, completion: nil)
-    }
-    
-    @IBAction func sendTestMIDIEvent(_ sender: Any) {
-        let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
-        try? conn?.send(event: .noteOn(60, velocity: .midi1(64), channel: 0))
-        print("sending test signal")
-        
-        // wait a second before turning off the note - Gemini async syntax ssistance
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
-        }
-        
-    }
     
     public func broadcastState() {
         // ONLY IF THERE'S ANY CHANGE IN ANY OF THE PARAMETERS SEND THE NEW VALUE TO THE CHANNEL ASSOCIATED WITH IT
@@ -37,6 +25,10 @@ class MidiDevice: UIViewController {
     }
     
     public func updateState(hand: Hand) {
+        // cursor quick integerization assistance
+        print("x: \(Int(hand.mcpX * 100)), y: \(Int(hand.mcpY * 100)), c: \(Int(hand.closedness * 100)), d: \(Int(hand.distanceTP * 100))")
+        
+        // todo: eventually implement a calibration mode to associate the range of x, y, c, and t values the user will send to the 0-127 midi range
         
     }
     

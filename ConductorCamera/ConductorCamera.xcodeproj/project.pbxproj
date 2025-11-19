@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9007524D2ECD711C00C4C6BA /* EMAFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9007524C2ECD711A00C4C6BA /* EMAFilter.swift */; };
 		901362082EA982360024832C /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901362072EA982330024832C /* MIDIDevice.swift */; };
-		904081822EC66A56007A6021 /* VisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904081812EC66A4B007A6021 /* VisionController.swift */; };
+		904081822EC66A56007A6021 /* VisionDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904081812EC66A4B007A6021 /* VisionDevice.swift */; };
 		904C6CE82EA2B34500C8CB0D /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904C6CE72EA2B34100C8CB0D /* Parameters.swift */; };
 		9067D1282EC55F98008D6D33 /* MIDIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1272EC55F98008D6D33 /* MIDIKit */; };
 		9067D12A2EC55F98008D6D33 /* MIDIKitControlSurfaces in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1292EC55F98008D6D33 /* MIDIKitControlSurfaces */; };
@@ -32,8 +33,9 @@
 		131D672E55F74A60D83C1534 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		26547FACF06954AF783E23D9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		9007524C2ECD711A00C4C6BA /* EMAFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMAFilter.swift; sourceTree = "<group>"; };
 		901362072EA982330024832C /* MIDIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIDevice.swift; sourceTree = "<group>"; };
-		904081812EC66A4B007A6021 /* VisionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionController.swift; sourceTree = "<group>"; };
+		904081812EC66A4B007A6021 /* VisionDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDevice.swift; sourceTree = "<group>"; };
 		904C6CE72EA2B34100C8CB0D /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		9067D1352EC56248008D6D33 /* BTMIDIPeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTMIDIPeripheralViewController.swift; sourceTree = "<group>"; };
 		909464692EC80CFA007507DA /* HandBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandBuffer.swift; sourceTree = "<group>"; };
@@ -109,8 +111,9 @@
 				C475655A248AEBD800F111B8 /* CameraView.swift */,
 				904C6CE72EA2B34100C8CB0D /* Parameters.swift */,
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
-				904081812EC66A4B007A6021 /* VisionController.swift */,
+				904081812EC66A4B007A6021 /* VisionDevice.swift */,
 				909464692EC80CFA007507DA /* HandBuffer.swift */,
+				9007524C2ECD711A00C4C6BA /* EMAFilter.swift */,
 				901362072EA982330024832C /* MIDIDevice.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
 				C4EB82F0248AEB7B00CD7D41 /* Main.storyboard */,
@@ -198,13 +201,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				904081822EC66A56007A6021 /* VisionController.swift in Sources */,
+				904081822EC66A56007A6021 /* VisionDevice.swift in Sources */,
 				901362082EA982360024832C /* MIDIDevice.swift in Sources */,
 				C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */,
 				9067D1362EC56248008D6D33 /* BTMIDIPeripheralViewController.swift in Sources */,
 				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
 				9094646A2EC80D01007507DA /* HandBuffer.swift in Sources */,
 				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,
+				9007524D2ECD711C00C4C6BA /* EMAFilter.swift in Sources */,
 				C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */,
 				904C6CE82EA2B34500C8CB0D /* Parameters.swift in Sources */,
 			);

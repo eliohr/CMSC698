@@ -15,9 +15,9 @@ struct BufferHand {
     var time = Date()
     
     init(h: Hand = Hand(), t: Date = Date()) {
-        let measured = h
-        let filtered = h
-        let time = t
+        measured = h
+        filtered = h
+        time = t
     }
 
 }
@@ -25,6 +25,7 @@ struct BufferHand {
 // ring buffer implementation inspired by https://www.youtube.com/watch?v=KyreJSKEagg
 class HandBuffer {
     
+    private let filter = EMAFilter()
     private var data = [BufferHand]()
     private var headPtr = 0
     private var beatHeadPtr = 0
@@ -82,18 +83,12 @@ class HandBuffer {
         let b = previousValue
         var c = Hand()
         
-        c.wristX = applyFilter(value: a.wristX, previousValue: b.wristX, weight: weight)
-        c.wristY = applyFilter(value: a.wristY, previousValue: b.wristY, weight: weight)
-        c.distanceTP = applyFilter(value: a.distanceTP, previousValue: b.distanceTP, weight: weight)
-        c.closedness = applyFilter(value: a.closedness, previousValue: b.closedness, weight: weight)
+        c.mcpX = filter.applyFilter(value: a.mcpX, previousValue: b.mcpX, weight: weight)
+        c.mcpY = filter.applyFilter(value: a.mcpY, previousValue: b.mcpY, weight: weight)
+        c.distanceTP = filter.applyFilter(value: a.distanceTP, previousValue: b.distanceTP, weight: weight)
+        c.closedness = filter.applyFilter(value: a.closedness, previousValue: b.closedness, weight: weight)
         
         return c
-    }
-    
-    // I learned about the EMA filter using this video https://www.youtube.com/watch?v=iPYacJZM5Z0
-    public func applyFilter(value: Double, previousValue: Double, weight: Double) -> Double {
-        let filteredValue = ((1.0 - weight) * value + weight * previousValue)
-        return filteredValue
     }
     
 }

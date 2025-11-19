@@ -16,17 +16,60 @@ class CameraViewController: UIViewController {
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
-    private let drawPath = UIBezierPath()
-    private var lastDrawPoint: CGPoint?
-    private var isFirstSegment = true
-    
-    private var observation = Observation()
+    // private var observation = Observation()
     private var lastObservationTimestamp = Date()
     
     private let parameters = Parameters()
     private let midiDevice = MidiDevice()
-    private let visionController = VisionController()
+    private let visionDevice = VisionDevice()
     
+    // settings view toggle - modified from gemini generation
+    @IBOutlet weak var settingsViewToggle: UIView!
+    @IBAction func openSettings(_ sender: UIButton) {
+        settingsViewToggle.isHidden.toggle()
+    }
+    
+    // midi peripheral setup and test
+    @IBAction func setup(_ sender: Any) {
+        let sheetViewController = BTMIDIPeripheralViewController(nibName: nil, bundle: nil)
+        present(sheetViewController, animated: true, completion: nil)
+    }
+    @IBAction func test(_ sender: Any) {
+        let appDelegate = midiDevice.appDelegate
+        let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
+        try? conn?.send(event: .noteOn(60, velocity: .midi1(64), channel: 0))
+        print("sending test signal")
+        
+        // wait a second before turning off the note - Gemini async syntax ssistance
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
+        }
+    }
+    
+    
+    // MARK: REVIEW THIS COPIED CODE FROM THE APPLE SAMPLE APP
+    // idk for now it's fine but I want the ui to look very different from this so I'll get in there and figure out how that works eventually
+    private let drawOverlay = CAShapeLayer()
+    private let drawPath = UIBezierPath()
+    private var lastDrawPoint: CGPoint?
+    private var isFirstSegment = true
+    override func viewDidLoad() {
+        
+        settingsViewToggle.isHidden = true // start with settings hidden
+        
+        super.viewDidLoad()
+        drawOverlay.frame = view.layer.bounds
+        drawOverlay.lineWidth = 5
+        drawOverlay.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0.5).cgColor
+        drawOverlay.strokeColor = #colorLiteral(red: 0.6, green: 0.1, blue: 0.3, alpha: 1).cgColor
+        drawOverlay.fillColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0).cgColor
+        drawOverlay.lineCap = .round
+        view.layer.addSublayer(drawOverlay)
+        // This sample app detects one hand only.
+        handPoseRequest.maximumHandCount = 1
+        
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         do {
@@ -87,8 +130,9 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        // may be nil when no reliable point was detected
-        var recognizedPoints: [VNRecognizedPoint?]?
+        // may be nil when no reliable points are detected
+        var recognizedPointsOp: [VNHumanHandPoseObservation.JointName: VNRecognizedPoint]?
+        var handOp: Hand?
 
         defer {
             
@@ -98,9 +142,18 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             
             // Gemini assistance with GCD async to keep this from adding latency to the MIDI broadcast thread
             DispatchQueue.global(qos: .userInitiated).async {
+                
                 // unwrap the optionals and send coordinates to overlay
-                let processedPoints = visionController.processPoints(points: recognizedPoints)
-                cameraView.showPoints(color: .clear, points: processedPoints)
+                let viewSize = self.cameraView.previewLayer.bounds.size
+                guard let recognizedPoints = recognizedPointsOp else {
+                    return
+                }
+                
+                let processedPoints = self.visionDevice.processPoints(points: recognizedPoints, viewSize: viewSize)
+                
+                DispatchQueue.main.async {
+                    self.cameraView.showPoints(processedPoints, color: .black)
+                }
             }
             
         }
@@ -111,21 +164,20 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // Perform VNDetectHumanHandPoseRequest
             try handler.perform([handPoseRequest])
             // Continue only when a hand pose was detected in the frame.
-            guard let poseRequestResult = handPoseRequest.results?.first else {
-                return
-            }
+            // Since we set the maximumHandCount property of the request to 1, there will be at most one observation.
+            guard let observation = handPoseRequest.results?.first else { return }
             
-            // processObservation returns an object of struct hand
-            guard let hand = visionController.processObservation(poseRequestResult) else {
-                print("failed to process observation")
-                return
-            }
+            // returns [VNHumanHandPoseObservation.JointName: VNRecognizedPoint]? - cursor syntax assistance
+            recognizedPointsOp = visionDevice.recognizePoints(observation)
+            guard let recognizedPoints = recognizedPointsOp else { return }
             
             // update timestamp upon successful observation processing
             lastObservationTimestamp = Date()
             
-            // send the new hand info to the midi device
-            midiDevice.updateState(hand: hand)
+            // send new hand info to midi device
+            handOp = visionDevice.toHand(points: recognizedPoints)
+            guard let h = handOp else { return }
+            midiDevice.updateState(hand: h)
             
             } catch {
             cameraFeedSession?.stopRunning()
