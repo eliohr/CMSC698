@@ -6,6 +6,16 @@
 //  Copyright © 2025 Apple. All rights reserved.
 //
 
+
+// this object defines enums containing the various hand attributes and midi events with which we can create the attributeMIDIEvents dictionary in MIDIDevice
+
+enum HandAttribute: String, CaseIterable {
+    case mcpX = "x-position"
+    case mcpY = "y-position"
+    case closedness = "closedness"
+    case distanceTP = "thumb-pointer distance"
+}
+
 // Gemini made this basically
 enum MIDIEvent {
     case PitchBend(value: UInt16) // 14-bit data often represented by a 16-bit integer

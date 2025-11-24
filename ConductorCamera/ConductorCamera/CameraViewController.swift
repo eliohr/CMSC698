@@ -8,13 +8,6 @@ import UIKit
 import AVFoundation
 import Vision
 
-enum HandAttribute: String, CaseIterable {
-    case xPosition = "x-position"
-    case yPosition = "y-position"
-    case closedness = "closedness"
-    case thumbPointerDistance = "thumb-pointer distance"
-}
-
 class CameraViewController: UIViewController {
     
     private var cameraView: CameraView { view as! CameraView }
@@ -33,7 +26,7 @@ class CameraViewController: UIViewController {
     // The single, pre-populated data source for the picker
     let midiEventOptions: [MIDIEvent] = MIDIEvent.allPickableEvents
     
-    var handAttribute: HandAttribute = .xPosition
+    var handAttribute: HandAttribute = .mcpX
     var midiEvent: MIDIEvent = .PitchBend(value: 0)
     
     // settings view toggle - modified from gemini generation
@@ -43,7 +36,7 @@ class CameraViewController: UIViewController {
     }
     @IBOutlet weak var settings: UIButton!
     
-    // midi peripheral setup and test
+    // midi peripheral setup and test from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     @IBAction func setup(_ sender: Any) {
         let sheetViewController = BTMIDIPeripheralViewController(nibName: nil, bundle: nil)
         present(sheetViewController, animated: true, completion: nil)
@@ -59,6 +52,7 @@ class CameraViewController: UIViewController {
             try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
         }
     }
+    
     @IBOutlet weak var fromPick: UIButton!
     
     // Gemini assistance
@@ -71,7 +65,13 @@ class CameraViewController: UIViewController {
             print("Error: Menu item title '\(title)' does not match any HandAttribute.")
         }
     }
+    
     @IBOutlet weak var toPick: UIPickerView!
+    
+    @IBAction func updateAttributes(_ sender: Any) {
+        midiDevice.updateAttributes(from: handAttribute, to: midiEvent)
+    }
+    
     
     private let drawOverlay = CAShapeLayer()
     private let drawPath = UIBezierPath()
@@ -97,7 +97,7 @@ class CameraViewController: UIViewController {
         toPick.dataSource = self
         toPick.delegate = self
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         do {
@@ -171,7 +171,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // Gemini assistance with GCD async to keep this from adding latency to the MIDI broadcast thread
             DispatchQueue.global(qos: .userInitiated).async {
                 
-                // i really want clearing points to work but it doesn't
+                // i really want clearing points to work but it's like weird and unreliable
                 /*
                 if Date().timeIntervalSince(self.lastObservationTimestamp) > 2.0 {
                     self.cameraView.clearPoints()
@@ -209,7 +209,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // send new hand info to midi device
             handOp = visionDevice.toHand(points: recognizedPoints)
             guard let h = handOp else { return }
-            midiDevice.updateState(hand: h, from: handAttribute, to: midiEvent)
+            midiDevice.updateState(hand: h)
             
             } catch {
             cameraFeedSession?.stopRunning()

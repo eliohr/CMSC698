@@ -40,7 +40,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="assign hand attribute" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Usi-PO-g2j">
-                                        <rect key="frame" x="36" y="151" width="236" height="21"/>
+                                        <rect key="frame" x="36" y="150" width="236" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                         <nil key="textColor"/>
@@ -52,8 +52,21 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="font" value="System Font Regular 15.0"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X6G-VE-3vS" userLabel="from pick">
+                                        <rect key="frame" x="36" y="179" width="246" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <menu key="menu" id="fs4-to-tdt" userLabel="from menu">
+                                            <children>
+                                                <command title="x-position" id="5VH-eA-6UA" userLabel="x-position"/>
+                                                <command title="y-position" id="wzQ-gw-SAh"/>
+                                                <command title="closedness" id="d63-Du-12H" userLabel="closedness"/>
+                                                <command title="thumb-pointer distance" id="psJ-aN-g1H" userLabel="thumb-pointer distance"/>
+                                            </children>
+                                        </menu>
+                                        <state key="normal" title="Button"/>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="to MIDI parameter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jr-zX-Ctg" userLabel="to MIDI parameter">
-                                        <rect key="frame" x="36" y="218" width="246" height="21"/>
+                                        <rect key="frame" x="36" y="217" width="246" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="textColor"/>
@@ -65,7 +78,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mhD-xS-a1S" userLabel="to pick">
-                                        <rect key="frame" x="0.0" y="247" width="319" height="216"/>
+                                        <rect key="frame" x="0.0" y="246" width="319" height="161"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" systemColor="tintColor"/>
                                         <userDefinedRuntimeAttributes>
@@ -75,18 +88,15 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="font" value=""/>
                                         </userDefinedRuntimeAttributes>
                                     </pickerView>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X6G-VE-3vS" userLabel="from pick">
-                                        <rect key="frame" x="36" y="180" width="246" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="NFK-eX-0Go">
+                                        <rect key="frame" x="36" y="415" width="246" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <menu key="menu" id="fs4-to-tdt" userLabel="from menu">
-                                            <children>
-                                                <command title="x-position" id="5VH-eA-6UA" userLabel="x-position"/>
-                                                <command title="y-position" id="wzQ-gw-SAh"/>
-                                                <command title="closedness" id="d63-Du-12H" userLabel="closedness"/>
-                                                <command title="thumb-pointer distance" id="psJ-aN-g1H" userLabel="thumb-pointer distance"/>
-                                            </children>
-                                        </menu>
-                                        <state key="normal" title="Button"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="set MIDI-hand mapping"/>
+                                        <buttonConfiguration key="configuration" style="tinted" title="set MIDI-hand mapping"/>
+                                        <connections>
+                                            <action selector="updateAttributes:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="jAn-jW-1RL"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
