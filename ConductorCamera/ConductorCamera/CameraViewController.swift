@@ -24,10 +24,10 @@ class CameraViewController: UIViewController {
     private let visionDevice = VisionDevice()
     
     // The single, pre-populated data source for the picker
-    let midiEventOptions: [MIDIEvent] = MIDIEvent.allPickableEvents
+    let midiEventOptions: [MyMIDIEvent] = MyMIDIEvent.allPickableEvents
     
     var handAttribute: HandAttribute = .mcpX
-    var midiEvent: MIDIEvent = .PitchBend(value: 0)
+    var midiEvent: MyMIDIEvent = .PitchBend(value: 0)
     
     // settings view toggle - modified from gemini generation
     @IBOutlet weak var settingsViewToggle: UIView!
@@ -72,7 +72,6 @@ class CameraViewController: UIViewController {
         midiDevice.updateAttributes(from: handAttribute, to: midiEvent)
     }
     
-    
     private let drawOverlay = CAShapeLayer()
     private let drawPath = UIBezierPath()
     private var lastDrawPoint: CGPoint?
@@ -92,7 +91,29 @@ class CameraViewController: UIViewController {
         // This sample app detects one hand only.
         handPoseRequest.maximumHandCount = 1
         
+        // Chat-GPT fix
+        // Set default title for fromPick
         fromPick.setTitle(handAttribute.rawValue, for: .normal)
+        // Configure the menu for the "From" button to pick a HandAttribute
+        fromPick.showsMenuAsPrimaryAction = true
+        if #available(iOS 15.0, *) {
+            fromPick.changesSelectionAsPrimaryAction = true
+        }
+        // Build actions from HandAttribute cases and forward selection to fromMenu(_:)
+        let actions: [UIAction] = HandAttribute.allCases.map { attribute in
+            let isDefault = (attribute == handAttribute)
+            return UIAction(
+                title: attribute.rawValue,
+                image: nil,
+                identifier: nil,
+                discoverabilityTitle: nil,
+                attributes: [],
+                state: isDefault ? .on : .off
+            ) { [weak self] action in
+                self?.fromMenu(action)
+            }
+        }
+        fromPick.menu = UIMenu(title: "Select Attribute", children: actions)
         
         toPick.dataSource = self
         toPick.delegate = self
@@ -237,3 +258,4 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         return event.displayName
     }
 }
+

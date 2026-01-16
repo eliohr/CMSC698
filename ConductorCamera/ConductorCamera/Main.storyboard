@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="Whs-S8-a5C" userLabel="settings">
-                                <rect key="frame" x="37" y="107" width="319" height="483"/>
+                                <rect key="frame" x="37" y="166" width="319" height="390"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="v7S-DD-eFt" userLabel="open MIDI peripheral setup">
                                         <rect key="frame" x="36" y="34" width="246" height="35"/>
@@ -56,6 +56,7 @@
                                         <rect key="frame" x="36" y="179" width="246" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <menu key="menu" id="fs4-to-tdt" userLabel="from menu">
+                                            <menuOptions key="menuOptions" singleSelection="YES"/>
                                             <children>
                                                 <command title="x-position" id="5VH-eA-6UA" userLabel="x-position"/>
                                                 <command title="y-position" id="wzQ-gw-SAh"/>
@@ -95,14 +96,14 @@
                                         <state key="normal" title="set MIDI-hand mapping"/>
                                         <buttonConfiguration key="configuration" style="tinted" title="set MIDI-hand mapping"/>
                                         <connections>
-                                            <action selector="updateAttributes:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="jAn-jW-1RL"/>
+                                            <action selector="updateAttributes:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="mIi-xL-jkK"/>
                                         </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJv-Oa-12n">
-                                <rect key="frame" x="154" y="691" width="85" height="35"/>
+                                <rect key="frame" x="154" y="657" width="85" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="settings"/>
                                 <connections>
@@ -135,7 +136,7 @@
     </scenes>
     <resources>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.53333333333333333" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

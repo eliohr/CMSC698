@@ -17,12 +17,12 @@ enum HandAttribute: String, CaseIterable {
 }
 
 // Gemini made this basically
-enum MIDIEvent {
+enum MyMIDIEvent {
     case PitchBend(value: UInt16) // 14-bit data often represented by a 16-bit integer
     case AfterTouch(value: UInt8) // 7-bit data
     case ControlChange(MIDICC)
 }
-extension MIDIEvent {
+extension MyMIDIEvent {
     var displayName: String {
         switch self {
         case .PitchBend:
@@ -299,19 +299,19 @@ extension MIDICC {
     }
 }
 
-extension MIDIEvent {
+extension MyMIDIEvent {
     
     /// A static property that generates a complete, ordered list of all
     /// MIDIEvent instances to be used as a data source (e.g., for a PickerView).
-    static let allPickableEvents: [MIDIEvent] = {
+    static let allPickableEvents: [MyMIDIEvent] = {
         // 1. Start with non-CC events
-        var events: [MIDIEvent] = [
+        var events: [MyMIDIEvent] = [
             .PitchBend(value: 0),
             .AfterTouch(value: 0)
         ]
         
         // 2. Append all 128 Control Change messages using MIDICC.allCases
-        let ccEvents = MIDICC.allCases.map { ccCase -> MIDIEvent in // <-- FIX IS HERE!
+        let ccEvents = MIDICC.allCases.map { ccCase -> MyMIDIEvent in // <-- FIX IS HERE!
             // Swift now knows to look inside the MIDIEvent enum for .ControlChange
             return .ControlChange(ccCase)
         }

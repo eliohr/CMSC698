@@ -15,7 +15,7 @@ class MidiDevice: UIViewController {
     private var currentHand = Hand()
     
     // this dictionary stores the current associations between hand attributes and midi events as they're defined in the MIDIEvent class
-    private var attributeMIDIEvents: [HandAttribute: MIDIEvent] = [
+    private var attributeMIDIEvents: [HandAttribute: MyMIDIEvent] = [
         .mcpX: .ControlChange(.Pan),
         .mcpY: .PitchBend(value: 8192),
         .closedness: .ControlChange(.ChannelVolume),
@@ -35,20 +35,21 @@ class MidiDevice: UIViewController {
     // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
-    // use the boolean member of the attributeMIDIEvents dictionary value to determine whether we need to broadcast new info
     public func broadcastState() {
         let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
+        
+        let x = attributeMIDIEvents[.mcpX]
+        let y = attributeMIDIEvents[.mcpY]
+        let c = attributeMIDIEvents[.closedness]
+        let d = attributeMIDIEvents[.distanceTP]
+        
         try? conn?.send(event: .cc(.expression, value: .midi1(64), channel: 0))
     }
-    
     
     // update current hand info
     public func updateState(hand: Hand) {
         
         currentHand = hand
-        
-        // cursor quick integerization assistance
-        print("x: \(Int(hand.mcpX * 100)), y: \(Int(hand.mcpY * 100)), c: \(Int(hand.closedness * 100)), d: \(Int(hand.distanceTP * 100))")
         
         /*
         // i'll probably implement the decision to broadcast based on whether it changed once we've normalized to the ranges of the midi events
@@ -84,7 +85,7 @@ class MidiDevice: UIViewController {
     }
     
     // set the new hand-MIDI association
-    public func updateAttributes(from: HandAttribute, to: MIDIEvent) {
+    public func updateAttributes(from: HandAttribute, to: MyMIDIEvent) {
         attributeMIDIEvents[from] = to
     }
     
