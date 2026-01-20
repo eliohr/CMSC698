@@ -14,7 +14,7 @@ public struct Parameters {
     public let handCapacity = 100
     public let frameRate = 30.0 // how do i actually maniuplate the camera frame rate?
     public let maxObservationWindow = 10.0
-    public let handFilterWeight = 0.9
+    public let handFilterWeight = 0.3
     public let displayFilterWeight = 0.9
     public let displayColor = UIColor.black
 }

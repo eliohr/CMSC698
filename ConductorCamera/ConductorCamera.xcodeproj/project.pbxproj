@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		9007524D2ECD711C00C4C6BA /* EMAFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9007524C2ECD711A00C4C6BA /* EMAFilter.swift */; };
 		901362082EA982360024832C /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901362072EA982330024832C /* MIDIDevice.swift */; };
-		902B85D12ECDD6AC006C6B42 /* MyMIDIEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B85D02ECDD6A8006C6B42 /* MyMIDIEvent.swift */; };
+		901F9CE52F202DCD00078257 /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901F9CE42F202DCD00078257 /* Hand.swift */; };
+		902B85D12ECDD6AC006C6B42 /* MIDIEventWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B85D02ECDD6A8006C6B42 /* MIDIEventWrapper.swift */; };
 		904081822EC66A56007A6021 /* VisionDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904081812EC66A4B007A6021 /* VisionDevice.swift */; };
 		904C6CE82EA2B34500C8CB0D /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904C6CE72EA2B34100C8CB0D /* Parameters.swift */; };
 		9067D1282EC55F98008D6D33 /* MIDIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1272EC55F98008D6D33 /* MIDIKit */; };
@@ -36,7 +37,8 @@
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		9007524C2ECD711A00C4C6BA /* EMAFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMAFilter.swift; sourceTree = "<group>"; };
 		901362072EA982330024832C /* MIDIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIDevice.swift; sourceTree = "<group>"; };
-		902B85D02ECDD6A8006C6B42 /* MyMIDIEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMIDIEvent.swift; sourceTree = "<group>"; };
+		901F9CE42F202DCD00078257 /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
+		902B85D02ECDD6A8006C6B42 /* MIDIEventWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIEventWrapper.swift; sourceTree = "<group>"; };
 		904081812EC66A4B007A6021 /* VisionDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDevice.swift; sourceTree = "<group>"; };
 		904C6CE72EA2B34100C8CB0D /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		9067D1352EC56248008D6D33 /* BTMIDIPeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTMIDIPeripheralViewController.swift; sourceTree = "<group>"; };
@@ -115,9 +117,10 @@
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
 				904081812EC66A4B007A6021 /* VisionDevice.swift */,
 				909464692EC80CFA007507DA /* HandBuffer.swift */,
+				901F9CE42F202DCD00078257 /* Hand.swift */,
 				9007524C2ECD711A00C4C6BA /* EMAFilter.swift */,
 				901362072EA982330024832C /* MIDIDevice.swift */,
-				902B85D02ECDD6A8006C6B42 /* MyMIDIEvent.swift */,
+				902B85D02ECDD6A8006C6B42 /* MIDIEventWrapper.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
 				90A4BFB42ECDBA4400835DB3 /* Main.storyboard */,
 				C4EB82EA248AEB7B00CD7D41 /* AppDelegate.swift */,
@@ -208,8 +211,9 @@
 				901362082EA982360024832C /* MIDIDevice.swift in Sources */,
 				C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */,
 				9067D1362EC56248008D6D33 /* BTMIDIPeripheralViewController.swift in Sources */,
+				901F9CE52F202DCD00078257 /* Hand.swift in Sources */,
 				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
-				902B85D12ECDD6AC006C6B42 /* MyMIDIEvent.swift in Sources */,
+				902B85D12ECDD6AC006C6B42 /* MIDIEventWrapper.swift in Sources */,
 				9094646A2EC80D01007507DA /* HandBuffer.swift in Sources */,
 				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,
 				9007524D2ECD711C00C4C6BA /* EMAFilter.swift in Sources */,

@@ -7,6 +7,7 @@ Abstract: The app's main view controller object.
 import UIKit
 import AVFoundation
 import Vision
+import MIDIKit
 
 class CameraViewController: UIViewController {
     
@@ -24,10 +25,10 @@ class CameraViewController: UIViewController {
     private let visionDevice = VisionDevice()
     
     // The single, pre-populated data source for the picker
-    let midiEventOptions: [MyMIDIEvent] = MyMIDIEvent.allPickableEvents
+    let midiEventOptions: [MIDIEvent] = MIDIEvent.allPickableEvents
     
     var handAttribute: HandAttribute = .mcpX
-    var midiEvent: MyMIDIEvent = .PitchBend(value: 0)
+    var midiEvent: MIDIEvent = .pitchBend(value: MIDIEvent.ChanVoice14Bit32BitValue.unitInterval(0.5), channel: 0)
     
     // settings view toggle - modified from gemini generation
     @IBOutlet weak var settingsViewToggle: UIView!
@@ -41,16 +42,37 @@ class CameraViewController: UIViewController {
         let sheetViewController = BTMIDIPeripheralViewController(nibName: nil, bundle: nil)
         present(sheetViewController, animated: true, completion: nil)
     }
+    // Chat-GPT modified midi manager and test with console output here
     @IBAction func test(_ sender: Any) {
         let appDelegate = midiDevice.appDelegate
-        let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
-        try? conn?.send(event: .noteOn(60, velocity: .midi1(64), channel: 0))
-        print("sending test signal")
         
-        // wait a second before turning off the note - Gemini async syntax ssistance
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            try? conn?.send(event: .noteOff(60, velocity: .midi1(64), channel: 0))
+        guard let manager = appDelegate?.midiManager else {
+            print("[MIDI Test] midiManager not available")
+            return
         }
+        
+        let managedKeys = Array(manager.managedOutputConnections.keys)
+        print("[MIDI Test] Managed output connection keys: \(managedKeys)")
+        
+        let inputs = manager.endpoints.inputs
+        let outputs = manager.endpoints.outputs
+        print("[MIDI Test] Inputs discovered: \(inputs.count)")
+        inputs.forEach { print("  [Input] \($0.name) (id: \($0.id))") }
+        print("[MIDI Test] Outputs discovered: \(outputs.count)")
+        outputs.forEach { print("  [Output] \($0.name) (id: \($0.id))") }
+        
+        guard let conn = manager.managedOutputConnections["Broadcaster"] else {
+            print("[MIDI Test] Broadcaster connection not found.")
+            return
+        }
+        
+        do {
+            try conn.send(event: .pitchBend(value: .unitInterval(0.5), channel: 0))
+            print("[MIDI Test] pitch bend event sent")
+        } catch {
+            print("[MIDI Test] failed to send pitch bend event: \(error)")
+        }
+        
     }
     
     @IBOutlet weak var fromPick: UIButton!
@@ -258,4 +280,3 @@ extension CameraViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         return event.displayName
     }
 }
-

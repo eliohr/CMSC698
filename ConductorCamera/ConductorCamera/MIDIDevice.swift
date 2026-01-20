@@ -11,26 +11,16 @@ import MIDIKit
 
 class MidiDevice: UIViewController {
     
+    let parameters = Parameters()
+    
     // the current hand information we'll convert to send through midi events
     private var currentHand = Hand()
     
-    // this dictionary stores the current associations between hand attributes and midi events as they're defined in the MIDIEvent class
-    private var attributeMIDIEvents: [HandAttribute: MyMIDIEvent] = [
-        .mcpX: .ControlChange(.Pan),
-        .mcpY: .PitchBend(value: 8192),
-        .closedness: .ControlChange(.ChannelVolume),
-        .distanceTP: .ControlChange(.SustainPedal),
-    ]
+    // the previous hand information we'll use to filter the current hand and check if we need to send a new event
+    private var previousHand = Hand()
     
-    // old version that took change into account
-    /*
-    private var attributeMIDIEvents: [HandAttribute: (MIDIEvent, Bool)] = [
-         .mcpX: (.ControlChange(.Pan),false),
-         .mcpY: (.PitchBend(value: 8192),false),
-         .closedness: (.ControlChange(.ChannelVolume),false),
-         .distanceTP: (.ControlChange(.SustainPedal),false),
-     ]
-     */
+    // this dictionary stores the current associations between hand attributes and midi events as they're defined in the MIDIEvent class
+    private var attributeMIDIEvents: [HandAttribute: MIDIEvent] = [:]
     
     // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -38,57 +28,43 @@ class MidiDevice: UIViewController {
     public func broadcastState() {
         let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
         
-        let x = attributeMIDIEvents[.mcpX]
-        let y = attributeMIDIEvents[.mcpY]
-        let c = attributeMIDIEvents[.closedness]
-        let d = attributeMIDIEvents[.distanceTP]
-        
-        try? conn?.send(event: .cc(.expression, value: .midi1(64), channel: 0))
+        for (a, e) in attributeMIDIEvents {
+            
+            let currentValue = currentHand.getValue(for: a)
+            let previousValue = previousHand.getValue(for: a)
+            
+            // send a new event if the value of the hand attribute changed
+            if (currentValue != previousValue) {
+                let handedEvent: MIDIEvent
+                
+                switch e {
+                case .pitchBend(_): handedEvent = .pitchBend(value: .unitInterval(currentValue), channel: 0)
+                case .pressure(_): handedEvent = .pressure(amount: .unitInterval(currentValue), channel: 0)
+                case .cc(let cc): handedEvent = .cc(cc.controller,value: .unitInterval(currentValue), channel: 0)
+                default: continue
+                }
+                
+                do {
+                    try conn?.send(event: handedEvent)
+                } catch {
+                    AppError.midiBroadcast(reason: error.localizedDescription).displayInViewController(self)
+                }
+            }
+            
+        }
     }
     
     // update current hand info
     public func updateState(hand: Hand) {
-        
-        currentHand = hand
-        
-        /*
-        // i'll probably implement the decision to broadcast based on whether it changed once we've normalized to the ranges of the midi events
-        if (hand.mcpX == currentHand.mcpX) {
-            attributeMIDIEvents[.mcpX]?.1 = false
-        } else {
-            attributeMIDIEvents[.mcpX]?.1 = true
-            currentHand.mcpX = hand.mcpX
-        }
-        
-        if (hand.mcpY == currentHand.mcpY) {
-            attributeMIDIEvents[.mcpY]?.1 = false
-        } else {
-            attributeMIDIEvents[.mcpY]?.1 = true
-            currentHand.mcpY = hand.mcpY
-        }
-
-        if (hand.closedness == currentHand.closedness) {
-            attributeMIDIEvents[.closedness]?.1 = false
-        } else {
-            attributeMIDIEvents[.closedness]?.1 = true
-            currentHand.closedness = hand.closedness
-        }
-
-        if (hand.distanceTP == currentHand.distanceTP) {
-            attributeMIDIEvents[.distanceTP]?.1 = false
-        } else {
-            attributeMIDIEvents[.distanceTP]?.1 = true
-            currentHand.distanceTP = hand.distanceTP
-        }
-         */
-        
+        currentHand = currentHand.filterHand(currentValue: hand, previousValue: previousHand, weight: parameters.handFilterWeight)
     }
     
     // set the new hand-MIDI association
-    public func updateAttributes(from: HandAttribute, to: MyMIDIEvent) {
+    public func updateAttributes(from: HandAttribute, to: MIDIEvent) {
         attributeMIDIEvents[from] = to
     }
     
-    // todo: eventually implement a calibration mode to associate the range of x, y, c, and t values the user will send to the 0-127 midi range
-    
+    /// TODO:
+    /// "nothing" option for a hand parameter to not record any data
+    /// calibration mode to associate the range of x, y, c, and t values the user will send to the Unit Interval range
 }

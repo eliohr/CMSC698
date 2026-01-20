@@ -9,20 +9,6 @@
 import Vision
 import UIKit
 
-struct Hand {
-    var mcpX = Double()
-    var mcpY = Double()
-    var distanceTP = Double()
-    var closedness = Double()
-    
-    init(x: Double = Double(), y: Double = Double(), d: Double = Double(), c: Double = Double()) {
-        mcpX = x
-        mcpY = y
-        distanceTP = d
-        closedness = c
-    }
-}
-
 class VisionDevice {
     
     private let parameters = Parameters()

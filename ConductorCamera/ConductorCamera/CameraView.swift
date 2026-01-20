@@ -58,7 +58,7 @@ class CameraView: UIView {
     func showPoints(_ points: [CGPoint], color: UIColor) {
         pointsPath.removeAllPoints()
         
-        // TODO: FIGURE OUT WHY THIS RESULTS IN A FATAL INDEX OUT OF RANGE ERROR ONLY SOMETIMES
+        // FIGURE OUT WHY THIS RESULTS IN A FATAL INDEX OUT OF RANGE ERROR ONLY SOMETIMES
         /*
         if previousPoints.isEmpty { previousPoints = points }
         for (i, point) in points.enumerated() {

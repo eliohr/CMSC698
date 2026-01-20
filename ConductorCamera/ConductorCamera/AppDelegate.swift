@@ -19,17 +19,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         clientName: "midiManager",
         model: "GestureControl",
         manufacturer: "Eli Orion"
-        )
+    )
     
+    // Initialize MIDI as early and reliably as possible
     func application(_ application: UIApplication,
-                     configurationForConnecting connectingSceneSession: UISceneSession,
-                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-
-        // start midi manager
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        print("[MIDI] didFinishLaunching: starting MIDI manager...")
         do {
             try midiManager.start()
+            print("[MIDI] Manager started.")
         } catch {
-            print("Error while starting MIDI manager: ", error.localizedDescription)
+            print("[MIDI] Error while starting MIDI manager: \(error.localizedDescription)")
         }
         
         // set up a broadcaster that can send events to all MIDI inputs
@@ -39,16 +39,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 tag: "Broadcaster",
                 filter: .owned() // don't allow self-created virtual endpoints
             )
+            print("[MIDI] Managed output connection 'Broadcaster' added.")
         } catch {
-            print(
-                "Error setting up managed MIDI all-listener connection:",
-                error.localizedDescription
-            )
+            print("[MIDI] Error setting up managed MIDI 'Broadcaster' connection: \(error.localizedDescription)")
         }
         
+        // Optional: print endpoints at launch to verify CoreMIDI sees anything
+        logMIDIEndpoints(context: "[MIDI] Post-init")
+        
+        return true
+    }
+    
+    // Keep this minimal; no MIDI setup here anymore
+    func application(_ application: UIApplication,
+                     configurationForConnecting connectingSceneSession: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-
+    
+    // MARK: - Debug helpers
+    
+    private func logMIDIEndpoints(context: String) {
+        // MIDIKit exposes endpoints via its manager properties; adjust if your version differs.
+        let inputs = midiManager.endpoints.inputs
+        let outputs = midiManager.endpoints.outputs
+        
+        print("\(context) - Inputs discovered: \(inputs.count)")
+        for ep in inputs {
+            print("  [Input] \(ep.name) (id: \(ep.id))")
+        }
+        
+        print("\(context) - Outputs discovered: \(outputs.count)")
+        for ep in outputs {
+            print("  [Output] \(ep.name) (id: \(ep.id))")
+        }
+        
+        let managedKeys = midiManager.managedOutputConnections.keys
+        print("\(context) - Managed output connection keys: \(Array(managedKeys))")
+    }
 }
 
 // MARK: - Errors
@@ -95,4 +123,3 @@ enum AppError: Error {
         viewController.present(alert, animated: true, completion: nil)
     }
 }
-
