@@ -33,7 +33,7 @@ class MidiDevice: UIViewController {
             let currentValue = currentHand.getValue(for: a)
             let previousValue = previousHand.getValue(for: a)
             
-            // send a new event if the value of the hand attribute changed
+            // send a new event if the value of the hand attribute changed — this isn't working cause we're comparing filtered values
             if (currentValue != previousValue) {
                 let handedEvent: MIDIEvent
                 
@@ -56,7 +56,9 @@ class MidiDevice: UIViewController {
     
     // update current hand info
     public func updateState(hand: Hand) {
+        let temporaryHand = currentHand
         currentHand = currentHand.filterHand(currentValue: hand, previousValue: previousHand, weight: parameters.handFilterWeight)
+        previousHand = temporaryHand
     }
     
     // set the new hand-MIDI association
