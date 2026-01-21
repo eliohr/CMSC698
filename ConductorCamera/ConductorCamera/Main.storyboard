@@ -60,8 +60,9 @@
                                             <children>
                                                 <command title="x-position" id="5VH-eA-6UA" userLabel="x-position"/>
                                                 <command title="y-position" id="wzQ-gw-SAh"/>
-                                                <command title="closedness" id="d63-Du-12H" userLabel="closedness"/>
-                                                <command title="thumb-pointer distance" id="psJ-aN-g1H" userLabel="thumb-pointer distance"/>
+                                                <command title="thumb-pointer distance" id="OdC-3P-5Eh" userLabel="thumb-pointer distance"/>
+                                                <command title="thumb-middle distance" id="Bld-w5-pim" userLabel="thumb-pointer distance"/>
+                                                <command title="thumb-pinky distance" id="psJ-aN-g1H" userLabel="thumb-pointer distance"/>
                                             </children>
                                         </menu>
                                         <state key="normal" title="Button"/>
@@ -136,7 +137,7 @@
     </scenes>
     <resources>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.53333333333333333" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

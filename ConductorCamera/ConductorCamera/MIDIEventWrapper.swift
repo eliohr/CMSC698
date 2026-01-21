@@ -13,8 +13,9 @@ import MIDIKit
 enum HandAttribute: String, CaseIterable {
     case mcpX = "x-position"
     case mcpY = "y-position"
-    case closedness = "closedness"
     case distanceTP = "thumb-pointer distance"
+    case distanceTM = "thumb-middle distance"
+    case distanceTL = "thumb-pinky distance"
 }
 
 extension MIDIEvent {

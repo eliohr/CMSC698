@@ -21,7 +21,6 @@
 		9067D1322EC55F98008D6D33 /* MIDIKitSync in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1312EC55F98008D6D33 /* MIDIKitSync */; };
 		9067D1342EC55F98008D6D33 /* MIDIKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9067D1332EC55F98008D6D33 /* MIDIKitUI */; };
 		9067D1362EC56248008D6D33 /* BTMIDIPeripheralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9067D1352EC56248008D6D33 /* BTMIDIPeripheralViewController.swift */; };
-		9094646A2EC80D01007507DA /* HandBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 909464692EC80CFA007507DA /* HandBuffer.swift */; };
 		90A4BFB52ECDBA4400835DB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90A4BFB42ECDBA4400835DB3 /* Main.storyboard */; };
 		C475655D248AEBD900F111B8 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655A248AEBD800F111B8 /* CameraView.swift */; };
 		C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475655C248AEBD900F111B8 /* CameraViewController.swift */; };
@@ -42,7 +41,6 @@
 		904081812EC66A4B007A6021 /* VisionDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDevice.swift; sourceTree = "<group>"; };
 		904C6CE72EA2B34100C8CB0D /* Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
 		9067D1352EC56248008D6D33 /* BTMIDIPeripheralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTMIDIPeripheralViewController.swift; sourceTree = "<group>"; };
-		909464692EC80CFA007507DA /* HandBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandBuffer.swift; sourceTree = "<group>"; };
 		90A4BFB42ECDBA4400835DB3 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		C475655A248AEBD800F111B8 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		C475655C248AEBD900F111B8 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 				904C6CE72EA2B34100C8CB0D /* Parameters.swift */,
 				C475655C248AEBD900F111B8 /* CameraViewController.swift */,
 				904081812EC66A4B007A6021 /* VisionDevice.swift */,
-				909464692EC80CFA007507DA /* HandBuffer.swift */,
 				901F9CE42F202DCD00078257 /* Hand.swift */,
 				9007524C2ECD711A00C4C6BA /* EMAFilter.swift */,
 				901362072EA982330024832C /* MIDIDevice.swift */,
@@ -214,7 +211,6 @@
 				901F9CE52F202DCD00078257 /* Hand.swift in Sources */,
 				C4EB82ED248AEB7B00CD7D41 /* SceneDelegate.swift in Sources */,
 				902B85D12ECDD6AC006C6B42 /* MIDIEventWrapper.swift in Sources */,
-				9094646A2EC80D01007507DA /* HandBuffer.swift in Sources */,
 				C475655D248AEBD900F111B8 /* CameraView.swift in Sources */,
 				9007524D2ECD711C00C4C6BA /* EMAFilter.swift in Sources */,
 				C475655F248AEBD900F111B8 /* CameraViewController.swift in Sources */,

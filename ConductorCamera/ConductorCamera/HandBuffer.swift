@@ -48,7 +48,7 @@ class HandBuffer {
     
     // revised ring buffer var names and array arithmetic with Copilot
     public func addElement(current: BufferHand) -> BufferHand {
-        var h = current
+        let h = current
         guard capacity > 0 else { return h }
         
         // if empty initialize one element without filtering or calculating velocity or acceleration and return so velocity can be calculated next
@@ -86,7 +86,8 @@ class HandBuffer {
         c.mcpX = filter.applyFilter(value: a.mcpX, previousValue: b.mcpX, weight: weight)
         c.mcpY = filter.applyFilter(value: a.mcpY, previousValue: b.mcpY, weight: weight)
         c.distanceTP = filter.applyFilter(value: a.distanceTP, previousValue: b.distanceTP, weight: weight)
-        c.closedness = filter.applyFilter(value: a.closedness, previousValue: b.closedness, weight: weight)
+        c.distanceTM = filter.applyFilter(value: a.distanceTM, previousValue: b.distanceTM, weight: weight)
+        c.distanceTL = filter.applyFilter(value: a.distanceTL, previousValue: b.distanceTL, weight: weight)
         
         return c
     }

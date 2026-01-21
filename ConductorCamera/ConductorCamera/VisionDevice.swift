@@ -67,25 +67,27 @@ class VisionDevice {
             return nil
         }
         
-        var distances: [CGFloat] = []
-        for (_, point) in points {
-            let dx = point.location.x - indexMCPPoint.location.x
-            let dy = point.location.y - indexMCPPoint.location.y
-            let distance = hypot(dx, dy)
-            distances.append(distance)
-        }
-        
-        // the average distance from other points in the hand to the index finger’s metacarpophalangeal joint
-        let closedness = distances.isEmpty ? 0.0 : Double(distances.reduce(0, +) / CGFloat(distances.count))
-        
-        let dx = (points[.thumbTip]?.location.x ?? 0.0) - (points[.indexTip]?.location.x ?? 0.0)
-        let dy = (points[.thumbTip]?.location.x ?? 0.0) - (points[.indexTip]?.location.x ?? 0.0)
+        // HOW COULD I ITERATE THRU INDEX, MIDDLE, AND LITTLE TO AVOID COPYING AND PASTING THESE THREE LINES?
+        var dx = (points[.thumbTip]?.location.x ?? 0.0) - (points[.indexTip]?.location.x ?? 0.0)
+        var dy = (points[.thumbTip]?.location.x ?? 0.0) - (points[.indexTip]?.location.x ?? 0.0)
         
         // the distance from the thumb tip to the index tip
         let distanceTP = hypot(dx, dy)
         
+        let dm = (points[.thumbTip]?.location.x ?? 0.0) - (points[.middleTip]?.location.x ?? 0.0)
+        let dn = (points[.thumbTip]?.location.x ?? 0.0) - (points[.middleTip]?.location.x ?? 0.0)
+        
+        // the distance from the thumb tip to the middle tip
+        let distanceTM = hypot(dm, dn)
+        
+        dx = (points[.thumbTip]?.location.x ?? 0.0) - (points[.littleTip]?.location.x ?? 0.0)
+        dy = (points[.thumbTip]?.location.x ?? 0.0) - (points[.littleTip]?.location.x ?? 0.0)
+        
+        // the distance from the thumb tip to the pinky tip
+        let distanceTL = hypot(dx, dy)
+        
         // arbitrary scaling to my hand
-        return Hand(x: Double(1.1 - indexMCPPoint.location.y * 1.2), y: Double(1.2 - indexMCPPoint.location.x * 1.4), d: distanceTP * 2.3 - 0.1, c: closedness)
+        return Hand(x: Double(1.1 - indexMCPPoint.location.y * 1.2), y: Double(1.2 - indexMCPPoint.location.x * 1.4), p: distanceTP * 2.3 - 0.1, m: distanceTM * 2.0 - 0.1, l: distanceTL * 1.7 - 0.1)
     }
     
 }

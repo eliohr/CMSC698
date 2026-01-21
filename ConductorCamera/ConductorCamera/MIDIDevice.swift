@@ -32,8 +32,9 @@ class MidiDevice: UIViewController {
         
         print("x: \(Int(filteredHand.mcpX*100))" +
               "\n y: \(Int(filteredHand.mcpY*100))" +
-              "\n c: \(Int(filteredHand.closedness*100))" +
-              "\n d: \(Int(filteredHand.distanceTP*100))")
+              "\n index: \(Int(filteredHand.distanceTP*100))" +
+              "\n middle: \(Int(filteredHand.distanceTM*100))" +
+              "\n pinky: \(Int(filteredHand.distanceTL*100))")
         
         // update current hand info
         let previousFilteredHand = filteredHand
