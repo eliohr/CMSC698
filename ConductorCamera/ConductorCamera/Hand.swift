@@ -35,8 +35,8 @@ public struct Hand {
         }
     }
     
-    public func filterHand(currentValue: Hand, previousValue: Hand, weight: Double) -> Hand {
-        let a = currentValue
+    public func filterHand(previousValue: Hand, weight: Double) -> Hand {
+        let a = self
         let b = previousValue
         var c = Hand()
         let filter = EMAFilter()

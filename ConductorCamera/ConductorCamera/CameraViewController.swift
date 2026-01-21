@@ -207,10 +207,6 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         defer {
             
-            DispatchQueue.main.async {
-                self.midiDevice.broadcastState()
-            }
-            
             // Gemini assistance with GCD async to keep this from adding latency to the MIDI broadcast thread
             DispatchQueue.global(qos: .userInitiated).async {
                 
@@ -252,7 +248,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             // send new hand info to midi device
             handOp = visionDevice.toHand(points: recognizedPoints)
             guard let h = handOp else { return }
-            midiDevice.updateState(hand: h)
+            midiDevice.updateAndBroadcastState(hand: h)
             
             } catch {
             cameraFeedSession?.stopRunning()

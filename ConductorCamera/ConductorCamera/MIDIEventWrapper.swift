@@ -18,6 +18,7 @@ enum HandAttribute: String, CaseIterable {
 }
 
 extension MIDIEvent {
+    
     // picker values
     var displayName: String {
         switch self {
@@ -32,6 +33,9 @@ extension MIDIEvent {
         }
     }
 }
+
+
+// Chat-GPT generated
 
 extension MIDIEvent {
     // A compact, metadata-driven list of pickable events:
@@ -57,5 +61,25 @@ extension MIDIEvent {
         
         events.append(contentsOf: ccEvents)
         return events
+    }()
+}
+
+// Wrapper that allows a "None" option alongside concrete MIDIEvent values.
+enum PickableMIDIEvent: Equatable {
+    case none
+    case event(MIDIEvent)
+    
+    var displayName: String {
+        switch self {
+        case .none:
+            return "None"
+        case .event(let e):
+            return e.displayName
+        }
+    }
+    
+    // Data source for pickers: include "None" first, then all pickable MIDI events.
+    static let options: [PickableMIDIEvent] = {
+        [.none] + MIDIEvent.allPickableEvents.map { .event($0) }
     }()
 }
