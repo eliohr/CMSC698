@@ -19,7 +19,7 @@ enum HandAttribute: String, CaseIterable {
 
 extension MIDIEvent {
     
-    // picker values
+    // picker representations
     var displayName: String {
         switch self {
         case .pitchBend:

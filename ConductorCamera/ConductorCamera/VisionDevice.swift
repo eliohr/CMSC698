@@ -26,25 +26,33 @@ class VisionDevice {
         return filteredPoints.isEmpty ? nil : filteredPoints
     }
     
-    // convert from Vision to AVFoundation coordinate and scale - modified from cursor generation
+    // convert from Vision to AVFoundation coordinates, remove unnecessary-to-display points, and scale - modified from cursor generation
     func processPoints(points: [VNHumanHandPoseObservation.JointName: VNRecognizedPoint], viewSize: CGSize) -> [CGPoint] {
         
         var pointsCG: [CGPoint] = []
         
-        for (_, recognizedPoint) in points {
-            // Convert from Vision coordinate system (bottom-left origin) to AVFoundation (top-left origin)
-            let normalizedPoint = CGPoint(
-                x: recognizedPoint.location.x,
-                y: 1 - recognizedPoint.location.y
-            )
+        for (name, recognizedPoint) in points {
             
-            // Scale to actual view size and rotate
-            let scaledPoint = CGPoint(
-                x: normalizedPoint.y * viewSize.width,
-                y: normalizedPoint.x * viewSize.height
-            )
+            // only keep the fingertips; i think this could reduce latency? i'm not paying much attention to what else might be affecting performance
             
-            pointsCG.append(scaledPoint)
+            if (name == .thumbTip || name == .indexTip || name == .middleTip || name == .ringTip || name == .littleTip){
+                
+                // Convert from Vision coordinate system (bottom-left origin) to AVFoundation (top-left origin)
+                let normalizedPoint = CGPoint(
+                    x: recognizedPoint.location.x,
+                    y: 1 - recognizedPoint.location.y
+                )
+                
+                // Scale to actual view size and rotate
+                let scaledPoint = CGPoint(
+                    x: normalizedPoint.y * viewSize.width,
+                    y: normalizedPoint.x * viewSize.height
+                )
+                
+                pointsCG.append(scaledPoint)
+                
+            }
+            
         }
         
         return pointsCG

@@ -1,10 +1,13 @@
-# Conductor camera for playback tempo sync
-Outlined with help from Google Gemini
+# MIDI gesture control using Apple Vision framework
+
+TODO:
+- redo closedness definition to be more useful
+- "none" option in attribute-midi menus
+- improve ui
 
 ## Parameters to optimize
-- Elaborate
-- On
-- This
+- filtering
+- scaling: replace arbitrary scaling to my hand with calibration mode to associate the range of x, y, c, and d values the user will send to the Unit Interval range
 
 ## Pose Estimation on iOS
 - Use Apple Vision framework built on CoreML
@@ -28,6 +31,7 @@ Outlined with help from Google Gemini
 - Elaborate
 - On
 - This
+
 ## Other important features
 - Rehearsal marking snap (+- measures)
 - Audio analysis

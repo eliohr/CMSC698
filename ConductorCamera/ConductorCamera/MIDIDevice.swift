@@ -77,8 +77,4 @@ class MidiDevice: UIViewController {
         attributeMIDIEvents[from] = to
     }
     
-    /// TODO
-    /// replace arbitrary scaling to my hand with calibration mode to associate the range of x, y, c, and d values the user will send to the Unit Interval range
-    /// redo closedness definition to be more useful
-    /// "none" option in attribute-midi menus
 }
