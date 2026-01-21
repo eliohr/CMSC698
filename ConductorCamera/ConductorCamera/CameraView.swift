@@ -1,7 +1,8 @@
 /*
 See the LICENSE.txt file for this sample’s licensing information.
 
-Abstract: The camera view shows the feed from the camera, and renders the points returned from VNDetectHumanHandpose observations.
+Abstract:
+The camera view shows the feed from the camera, and renders the points returned from VNDetectHumanHandpose observations.
 */
 
 import UIKit
@@ -10,9 +11,12 @@ import AVFoundation
 class CameraView: UIView {
 
     private var overlayLayer = CAShapeLayer()
-    private var coordsDisplayer = CATextLayer()
-    private var accDisplayer = CATextLayer()
-    private var tempoDisplayer = CATextLayer()
+    private var pointsPath = UIBezierPath()
+    
+    private let filter = EMAFilter()
+    private var previousPoints = [CGPoint]()
+    
+    private let parameters = Parameters()
 
     var previewLayer: AVCaptureVideoPreviewLayer {
         return layer as! AVCaptureVideoPreviewLayer
@@ -41,56 +45,42 @@ class CameraView: UIView {
 
     private func setupOverlay() {
         previewLayer.addSublayer(overlayLayer)
-        previewLayer.addSublayer(coordsDisplayer)
-        previewLayer.addSublayer(tempoDisplayer)
-        
-        // assistance from Gemini
-        coordsDisplayer.frame = CGRect(x: 10, y: 100, width: 300, height: 40)
-        coordsDisplayer.foregroundColor = UIColor.white.cgColor
-        coordsDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
-        
-        accDisplayer.frame = CGRect(x: 10, y: 200, width: 300, height: 40)
-        accDisplayer.foregroundColor = UIColor.white.cgColor
-        accDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
-        
-        tempoDisplayer.frame = CGRect(x: 10, y: 300, width: 300, height: 40)
-        tempoDisplayer.foregroundColor = UIColor.white.cgColor
-        tempoDisplayer.backgroundColor = UIColor.red.withAlphaComponent(0.5).cgColor
     }
     
-    func showTempo(color: UIColor, tempo: Tempo) {
-        
-        overlayLayer.fillColor = color.cgColor
-        tempoDisplayer.fontSize = 16
-        
-        let tempoDisplay = "bpm: \(tempo.bpm), meter: \(tempo.meter), beat: \(tempo.beat)"
-        
-        tempoDisplayer.string = tempoDisplay
-        
+    // this might not be the most efficient way to do this
+    func clearPoints() {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
+        overlayLayer.removeFromSuperlayer()
         CATransaction.commit()
-        
     }
     
-    func showPoints(color: UIColor, point: BufferPoint) {
+    func showPoints(_ points: [CGPoint], color: UIColor) {
+        pointsPath.removeAllPoints()
+        
+        /*
+        if previousPoints.isEmpty { previousPoints = points }
+         // FIGURE OUT WHY THIS RESULTS IN A FATAL INDEX OUT OF RANGE ERROR ONLY SOMETIMES
+
+        for (i, point) in points.enumerated() {
+            let x = CGFloat(filter.applyFilter(value: Double(point.x), previousValue: Double(previousPoints[i].x), weight: parameters.displayFilterWeight))
+            let y = CGFloat(filter.applyFilter(value: Double(point.y), previousValue: Double(previousPoints[i].y), weight: parameters.displayFilterWeight))
+            let p = CGPoint(x: x, y: y)
+            pointsPath.move(to: p)
+            pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+        }
+         */
+        
+        // no display point filtering for now
+        for point in points {
+            pointsPath.move(to: point)
+            pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+        }
         
         overlayLayer.fillColor = color.cgColor
-        coordsDisplayer.fontSize = 16
-        
-        let ax = (round((point.filteredAcceleration.dx)*1000))/1000
-        let ay = (round((point.filteredAcceleration.dy)*1000))/1000
-        let x = (round((point.filteredPoint.x)*1000))/1000
-        let y = (round((point.filteredPoint.y)*1000))/1000
-        
-        let coordsDisplay = "x: \(x), y: \(y)"
-        let accDisplay = "xAcc: \(ax), yAcc: \(ay)"
-        
-        coordsDisplayer.string = coordsDisplay
-        accDisplayer.string = accDisplay
-        
         CATransaction.begin()
         CATransaction.setDisableActions(true)
+        overlayLayer.path = pointsPath.cgPath
         CATransaction.commit()
         
     }
