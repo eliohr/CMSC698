@@ -13,15 +13,15 @@ import MIDIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
-    // MARK: - instantiate midi manager
+    // MARK: - instantiate and start midi manager
+    // https://orchetect.github.io/MIDIKit/documentation/midikitio/midimanager/
     let midiManager = MIDIManager(
         clientName: "midiManager",
         model: "GestureControl",
         manufacturer: "Eli Orion"
     )
     
-    // Initialize MIDI as early and reliably as possible
+    // Chat-GPT fix for inconcsistent peripheral connection: "initialize MIDI as early and reliably as possible"
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         print("[MIDI] didFinishLaunching: starting MIDI manager...")
@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    // Keep this minimal; no MIDI setup here anymore
+    // Chat-GPT: "keep this minimal; no MIDI setup here anymore"
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -78,6 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("\(context) - Managed output connection keys: \(Array(managedKeys))")
     }
 }
+
 
 // MARK: - Errors
 

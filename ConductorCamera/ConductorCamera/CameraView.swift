@@ -82,5 +82,6 @@ class CameraView: UIView {
         CATransaction.setDisableActions(true)
         overlayLayer.path = pointsPath.cgPath
         CATransaction.commit()
+        
     }
 }

@@ -21,7 +21,7 @@ class CameraViewController: UIViewController {
     private var lastObservationTimestamp = Date()
     
     private let parameters = Parameters()
-    private let midiDevice = MidiDevice()
+    private let midiDevice = MyMIDIDevice()
     private let visionDevice = VisionDevice()
     
     // The single, pre-populated data source for the picker
@@ -98,6 +98,7 @@ class CameraViewController: UIViewController {
     private let drawPath = UIBezierPath()
     private var lastDrawPoint: CGPoint?
     private var isFirstSegment = true
+    
     override func viewDidLoad() {
         
         settingsViewToggle.isHidden = true // start with settings hidden
@@ -162,7 +163,7 @@ class CameraViewController: UIViewController {
     }
     
     func setupAVSession() throws {
-        // Select a front facing camera, make an input.
+        
         guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
             throw AppError.captureSessionSetup(reason: "Could not find a front facing camera.")
         }
@@ -173,28 +174,57 @@ class CameraViewController: UIViewController {
         
         let session = AVCaptureSession()
         session.beginConfiguration()
-        session.sessionPreset = AVCaptureSession.Preset.high
         
         // Add a video input.
         guard session.canAddInput(deviceInput) else {
             throw AppError.captureSessionSetup(reason: "Could not add video device input to the session")
         }
+        
         session.addInput(deviceInput)
+        
+        let r = parameters.resolution
+        let f = parameters.frameRate
+        
+        // Gemini generated configuration
+        guard let desiredFormat = videoDevice.formats.first(where: { format in
+            // check resolution
+            let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
+            guard dimensions.height == Int(r.height) else {
+                return false
+            }
+            // check framerate
+            return format.videoSupportedFrameRateRanges.contains { range in
+                return range.minFrameRate <= f && range.maxFrameRate >= f
+            }
+        }) else {
+            throw AppError.captureSessionSetup(reason: "Device does not support desired format.")
+        }
+        
+        do {
+            try videoDevice.lockForConfiguration()
+            videoDevice.activeFormat = desiredFormat
+            let frameDuration = CMTime(value: 1, timescale: Int32(f))
+            videoDevice.activeVideoMinFrameDuration = frameDuration
+            videoDevice.activeVideoMaxFrameDuration = frameDuration
+            videoDevice.unlockForConfiguration()
+            print("Capture device configured at resolution of \(parameters.resolution) and frame rate of \(parameters.frameRate)")
+        } catch {
+            throw AppError.captureSessionSetup(reason: "Could not configure video device input.")
+        }
         
         let dataOutput = AVCaptureVideoDataOutput()
         if session.canAddOutput(dataOutput) {
             session.addOutput(dataOutput)
-            // Add a video data output.
             dataOutput.alwaysDiscardsLateVideoFrames = true
             dataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
             dataOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
         } else {
             throw AppError.captureSessionSetup(reason: "Could not add video data output to the session")
         }
+        
         session.commitConfiguration()
         cameraFeedSession = session
     }
-    
 }
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -230,6 +260,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
 
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
+        
         do {
             
             // Perform VNDetectHumanHandPoseRequest
