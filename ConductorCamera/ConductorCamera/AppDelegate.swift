@@ -24,6 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Chat-GPT fix for inconcsistent peripheral connection: "initialize MIDI as early and reliably as possible"
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        // it was annoying for it to keep turning off while playing—i assume people are used to the idea of an app that always displays the camera feed never shutting off on its own
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         print("[MIDI] didFinishLaunching: starting MIDI manager...")
         do {
             try midiManager.start()
