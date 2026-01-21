@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Chat-GPT fix for inconcsistent peripheral connection: "initialize MIDI as early and reliably as possible"
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         print("[MIDI] didFinishLaunching: starting MIDI manager...")
         do {
             try midiManager.start()
