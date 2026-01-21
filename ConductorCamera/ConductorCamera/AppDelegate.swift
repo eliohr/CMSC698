@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        // it was annoying for it to keep turning off while playing—i assume people are used to the idea of an app that always displays the camera feed never shutting off on its own
         UIApplication.shared.isIdleTimerDisabled = true
         
         print("[MIDI] didFinishLaunching: starting MIDI manager...")
