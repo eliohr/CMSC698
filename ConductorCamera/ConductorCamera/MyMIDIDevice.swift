@@ -8,7 +8,7 @@
 import UIKit
 import MIDIKit
 
-class MidiDevice: UIViewController {
+class MyMIDIDevice: UIViewController {
     
     let parameters = Parameters()
     

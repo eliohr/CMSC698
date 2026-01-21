@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9007524D2ECD711C00C4C6BA /* EMAFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9007524C2ECD711A00C4C6BA /* EMAFilter.swift */; };
-		901362082EA982360024832C /* MIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901362072EA982330024832C /* MIDIDevice.swift */; };
+		901362082EA982360024832C /* MyMIDIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901362072EA982330024832C /* MyMIDIDevice.swift */; };
 		901F9CE52F202DCD00078257 /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901F9CE42F202DCD00078257 /* Hand.swift */; };
 		902B85D12ECDD6AC006C6B42 /* MIDIEventWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902B85D02ECDD6A8006C6B42 /* MIDIEventWrapper.swift */; };
 		904081822EC66A56007A6021 /* VisionDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 904081812EC66A4B007A6021 /* VisionDevice.swift */; };
@@ -35,7 +35,7 @@
 		26547FACF06954AF783E23D9 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		72CC35B8245EF9E709BBCA67 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		9007524C2ECD711A00C4C6BA /* EMAFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMAFilter.swift; sourceTree = "<group>"; };
-		901362072EA982330024832C /* MIDIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIDevice.swift; sourceTree = "<group>"; };
+		901362072EA982330024832C /* MyMIDIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMIDIDevice.swift; sourceTree = "<group>"; };
 		901F9CE42F202DCD00078257 /* Hand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
 		902B85D02ECDD6A8006C6B42 /* MIDIEventWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIEventWrapper.swift; sourceTree = "<group>"; };
 		904081812EC66A4B007A6021 /* VisionDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionDevice.swift; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 				904081812EC66A4B007A6021 /* VisionDevice.swift */,
 				901F9CE42F202DCD00078257 /* Hand.swift */,
 				9007524C2ECD711A00C4C6BA /* EMAFilter.swift */,
-				901362072EA982330024832C /* MIDIDevice.swift */,
+				901362072EA982330024832C /* MyMIDIDevice.swift */,
 				902B85D02ECDD6A8006C6B42 /* MIDIEventWrapper.swift */,
 				C4EB82F5248AEB7B00CD7D41 /* LaunchScreen.storyboard */,
 				90A4BFB42ECDBA4400835DB3 /* Main.storyboard */,
@@ -205,7 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				904081822EC66A56007A6021 /* VisionDevice.swift in Sources */,
-				901362082EA982360024832C /* MIDIDevice.swift in Sources */,
+				901362082EA982360024832C /* MyMIDIDevice.swift in Sources */,
 				C4EB82EB248AEB7B00CD7D41 /* AppDelegate.swift in Sources */,
 				9067D1362EC56248008D6D33 /* BTMIDIPeripheralViewController.swift in Sources */,
 				901F9CE52F202DCD00078257 /* Hand.swift in Sources */,
