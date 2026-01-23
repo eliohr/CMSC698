@@ -12,6 +12,8 @@ class MyMIDIDevice: UIViewController {
     
     let parameters = Parameters()
     
+    private var learning = false
+    
     // the raw hand information we receive within updateState
     private var rawHand = Hand()
     
@@ -24,57 +26,69 @@ class MyMIDIDevice: UIViewController {
     // this dictionary stores the current associations between hand attributes and midi events as they're defined in the MIDIEvent class
     private var attributeMIDIEvents: [HandAttribute: MIDIEvent] = [:]
     
+    private var learningStoring: [HandAttribute: MIDIEvent] = [:]
+    
     // peripheral setup from https://github.com/orchetect/MIDIKit/tree/main/Examples/SwiftUI%20iOS/BluetoothMIDI
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     public func updateAndBroadcastState(hand: Hand) {
         
-        print("x: \(Int(filteredHand.mcpX*100))" +
-              "\n y: \(Int(filteredHand.mcpY*100))" +
-              "\n index: \(Int(filteredHand.distanceTP*100))" +
-              "\n middle: \(Int(filteredHand.distanceTM*100))" +
-              "\n pinky: \(Int(filteredHand.distanceTL*100))")
+        print(attributeMIDIEvents)
         
         // update current hand info
         let previousFilteredHand = filteredHand
         previousHand = rawHand
         rawHand = hand
         filteredHand = rawHand.filterHand(previousValue: previousFilteredHand, weight: parameters.handFilterWeight)
-        
-        let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
-        
-        for (a, e) in attributeMIDIEvents {
-            
-            let currentValue = rawHand.getValue(for: a)
-            let previousValue = previousHand.getValue(for: a)
-            
-            // send a new event if the value of the hand attribute changed — this isn't working cause we're comparing filtered values
-            if (currentValue != previousValue) {
-                let currentFilteredValue = filteredHand.getValue(for: a)
                 
-                let handedEvent: MIDIEvent
+        for (attribute, event) in attributeMIDIEvents { sendMIDIEvent(a: attribute, e: event) }
                 
-                switch e {
-                    // *2 cause i guess that's how pitch bend values work
-                    case .pitchBend(_): handedEvent = .pitchBend(value: .unitInterval(currentFilteredValue*2), channel: 0)
-                    case .pressure(_): handedEvent = .pressure(amount: .unitInterval(currentFilteredValue), channel: 0)
-                    case .cc(let cc): handedEvent = .cc(cc.controller,value: .unitInterval(currentFilteredValue), channel: 0)
-                    default: continue
-                }
-                
-                do {
-                    try conn?.send(event: handedEvent)
-                } catch {
-                    AppError.midiBroadcast(reason: error.localizedDescription).displayInViewController(self)
-                }
-            }
-            
-        }
     }
     
-    // set the new hand-MIDI association
+    // temporarily only use the mapping we're learning
+    public func learnMode(from: HandAttribute, to: MIDIEvent) {
+        learningStoring = attributeMIDIEvents
+        clearMIDIAttributes()
+        attributeMIDIEvents = [from:to]
+    }
+    
+    // this is its own function so I can access it from the camera view controller
+    public func clearMIDIAttributes() {
+        attributeMIDIEvents.removeAll()
+    }
+    
+    // revert to using all the mappings and set the new hand-MIDI association
     public func updateAttributes(from: HandAttribute, to: MIDIEvent) {
+        attributeMIDIEvents = learningStoring
         attributeMIDIEvents[from] = to
+    }
+    
+    private func sendMIDIEvent(a: HandAttribute, e: MIDIEvent) {
+        
+        let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
+        let currentValue = rawHand.getValue(for: a)
+        let previousValue = previousHand.getValue(for: a)
+        
+        // send a new event if the value of the hand attribute changed — this isn't working cause we're comparing filtered values
+        if (currentValue != previousValue) {
+            let currentFilteredValue = filteredHand.getValue(for: a)
+            
+            let handedEvent: MIDIEvent
+            
+            switch e {
+                // *2 cause i guess that's how pitch bend values work
+                case .pitchBend(_): handedEvent = .pitchBend(value: .unitInterval(currentFilteredValue*2), channel: 0)
+                case .pressure(_): handedEvent = .pressure(amount: .unitInterval(currentFilteredValue), channel: 0)
+                case .cc(let cc): handedEvent = .cc(cc.controller,value: .unitInterval(currentFilteredValue), channel: 0)
+                default: return
+            }
+            
+            do {
+                try conn?.send(event: handedEvent)
+            } catch {
+                AppError.midiBroadcast(reason: error.localizedDescription).displayInViewController(self)
+            }
+        }
     }
     
 }

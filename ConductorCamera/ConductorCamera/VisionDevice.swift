@@ -35,7 +35,7 @@ class VisionDevice {
             
             // only keep the fingertips; i think this could reduce latency? i'm not paying much attention to what else might be affecting performance
             
-            if (name == .thumbTip || name == .indexTip || name == .middleTip || name == .ringTip || name == .littleTip){
+            if (name == .thumbTip || name == .indexTip || name == .middleTip || name == .littleTip){
                 
                 // Convert from Vision coordinate system (bottom-left origin) to AVFoundation (top-left origin)
                 let normalizedPoint = CGPoint(

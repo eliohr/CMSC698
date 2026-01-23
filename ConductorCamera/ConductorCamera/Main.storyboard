@@ -19,19 +19,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="center" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Whs-S8-a5C" userLabel="settings">
-                                <rect key="frame" x="37" y="166" width="319" height="470"/>
+                                <rect key="frame" x="37" y="109" width="319" height="553"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="v7S-DD-eFt" userLabel="open MIDI peripheral setup">
                                         <rect key="frame" x="36" y="34" width="246" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="open MIDI peripheral setup"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="get started"/>
                                         <connections>
                                             <action selector="setup:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Jh3-eD-wkQ"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PYH-ya-qX0" userLabel="send test MIDI signal over BT">
-                                        <rect key="frame" x="36" y="77" width="246" height="35"/>
+                                        <rect key="frame" x="48" y="77" width="222" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="send test MIDI signal over BT"/>
@@ -40,7 +41,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="assign hand attribute" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Usi-PO-g2j">
-                                        <rect key="frame" x="36" y="150" width="236" height="21"/>
+                                        <rect key="frame" x="48" y="150" width="222" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                         <nil key="textColor"/>
@@ -53,7 +54,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" changesSelectionAsPrimaryAction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X6G-VE-3vS" userLabel="from pick">
-                                        <rect key="frame" x="36" y="179" width="246" height="30"/>
+                                        <rect key="frame" x="48" y="179" width="222" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <menu key="menu" id="fs4-to-tdt" userLabel="from menu">
                                             <menuOptions key="menuOptions" singleSelection="YES"/>
@@ -67,20 +68,8 @@
                                         </menu>
                                         <state key="normal" title="Button"/>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="to MIDI parameter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jr-zX-Ctg" userLabel="to MIDI parameter">
-                                        <rect key="frame" x="36" y="217" width="246" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
                                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mhD-xS-a1S" userLabel="to pick">
-                                        <rect key="frame" x="0.0" y="246" width="319" height="151"/>
+                                        <rect key="frame" x="36" y="246" width="246" height="151"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" systemColor="tintColor"/>
                                         <userDefinedRuntimeAttributes>
@@ -100,11 +89,35 @@
                                             <action selector="updateAttributes:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="mIi-xL-jkK"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="to MIDI parameter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2jr-zX-Ctg" userLabel="to MIDI parameter">
+                                        <rect key="frame" x="48" y="217" width="222" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="pMj-Or-gjb" userLabel="clear all mappings">
+                                        <rect key="frame" x="36" y="469" width="246" height="35"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="set MIDI-hand mapping"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="clear all mappings">
+                                            <color key="baseForegroundColor" systemColor="systemRedColor"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="clearAttributes:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ipJ-8X-wLn"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJv-Oa-12n">
-                                <rect key="frame" x="154" y="663" width="85" height="35"/>
+                                <rect key="frame" x="154" y="690" width="85" height="35"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="settings"/>
                                 <connections>
@@ -120,7 +133,7 @@
                             <constraint firstItem="Whs-S8-a5C" firstAttribute="leading" secondItem="eI6-Rg-pfG" secondAttribute="leading" constant="37" id="dJc-CV-y2M"/>
                             <constraint firstItem="Whs-S8-a5C" firstAttribute="centerX" secondItem="BJv-Oa-12n" secondAttribute="centerX" id="n9n-Z9-7EJ"/>
                             <constraint firstAttribute="bottomMargin" secondItem="BJv-Oa-12n" secondAttribute="bottom" constant="92" id="uza-fn-U2s"/>
-                            <constraint firstItem="eI6-Rg-pfG" firstAttribute="bottom" secondItem="Whs-S8-a5C" secondAttribute="bottom" constant="200" id="wwE-vz-9jg"/>
+                            <constraint firstItem="eI6-Rg-pfG" firstAttribute="bottom" secondItem="Whs-S8-a5C" secondAttribute="bottom" constant="60" id="wwE-vz-9jg"/>
                         </constraints>
                     </view>
                     <connections>
@@ -136,8 +149,11 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.2196078431372549" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.53333333333333333" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

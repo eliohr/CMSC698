@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 
 class CameraView: UIView {
-
+    
     private var overlayLayer = CAShapeLayer()
     private var pointsPath = UIBezierPath()
     
@@ -47,35 +47,44 @@ class CameraView: UIView {
         previewLayer.addSublayer(overlayLayer)
     }
     
-    // this might not be the most efficient way to do this
     func clearPoints() {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        overlayLayer.removeFromSuperlayer()
+        overlayLayer.opacity = 0.0
         CATransaction.commit()
     }
+    
+    func unclearPoints() {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        overlayLayer.opacity = 1.0
+        CATransaction.commit()
+    }
+
     
     func showPoints(_ points: [CGPoint], color: UIColor) {
         pointsPath.removeAllPoints()
         
-        /*
-        if previousPoints.isEmpty { previousPoints = points }
-         // FIGURE OUT WHY THIS RESULTS IN A FATAL INDEX OUT OF RANGE ERROR ONLY SOMETIMES
-
+        unclearPoints()
+        
+        if previousPoints.count != points.count {
+                previousPoints = points
+        }
+        
+        var filteredPoints: [CGPoint] = []
+        
         for (i, point) in points.enumerated() {
             let x = CGFloat(filter.applyFilter(value: Double(point.x), previousValue: Double(previousPoints[i].x), weight: parameters.displayFilterWeight))
             let y = CGFloat(filter.applyFilter(value: Double(point.y), previousValue: Double(previousPoints[i].y), weight: parameters.displayFilterWeight))
-            let p = CGPoint(x: x, y: y)
-            pointsPath.move(to: p)
-            pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+            
+            let filteredPoint = CGPoint(x: x, y: y)
+                    filteredPoints.append(filteredPoint)
+            
+            pointsPath.move(to: filteredPoint)
+            pointsPath.addArc(withCenter: filteredPoint, radius: 10, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         }
-         */
         
-        // no display point filtering for now
-        for point in points {
-            pointsPath.move(to: point)
-            pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
-        }
+        previousPoints = filteredPoints
         
         overlayLayer.fillColor = color.cgColor
         CATransaction.begin()

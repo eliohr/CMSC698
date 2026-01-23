@@ -91,7 +91,29 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var toPick: UIPickerView!
     
     @IBAction func updateAttributes(_ sender: Any) {
-        midiDevice.updateAttributes(from: handAttribute, to: midiEvent)
+            
+        // substack research led me to this https://stackoverflow.com/questions/32190390/call-uialertcontroller-and-await-user-interaction
+        let learnAlert = UIAlertController(title: "learn parameter", message: "In your DAW, select the instrument parameter you'd like this MIDI parameter to map to and activate MIDI learn mode. Once the parameters are mapped, deactivate learn mode and tap 'done learning' below.", preferredStyle: UIAlertController.Style.alert)
+        midiDevice.learnMode(from: handAttribute, to: midiEvent)
+        learnAlert.addAction(UIAlertAction(title: "done learning", style: .default) { (action) in
+            self.midiDevice.updateAttributes(from: self.handAttribute, to: self.midiEvent)
+        })
+        present(learnAlert, animated: true, completion: {
+            return
+        })
+    }
+    
+    @IBAction func clearAttributes(_ sender: Any) {
+        let clearAlert = UIAlertController(title: "clear all parameters", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        clearAlert.addAction(UIAlertAction(title: "yes", style: .destructive) { (action) in
+            self.midiDevice.clearMIDIAttributes()
+        })
+        clearAlert.addAction(UIAlertAction(title: "no", style: .cancel) { (action) in
+            return
+        })
+        present(clearAlert, animated: true, completion: {
+            return
+        })
     }
     
     private let drawOverlay = CAShapeLayer()
@@ -237,15 +259,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 
         defer {
             
+            
             // Gemini assistance with GCD async to keep this from adding latency to the MIDI broadcast thread
             DispatchQueue.global(qos: .userInitiated).async {
                 
-                // i really want clearing points to work but it's like weird and unreliable
-                /*
-                if Date().timeIntervalSince(self.lastObservationTimestamp) > 2.0 {
-                    self.cameraView.clearPoints()
+                if Date().timeIntervalSince(self.lastObservationTimestamp) > 0.1 {
+                        self.cameraView.clearPoints()
                 }
-                */
                 
                 let viewSize = self.cameraView.previewLayer.bounds.size
 
