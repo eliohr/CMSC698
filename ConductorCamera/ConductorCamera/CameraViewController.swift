@@ -123,7 +123,7 @@ class CameraViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        settingsViewToggle.isHidden = true // start with settings hidden
+        settingsViewToggle.isHidden = false // start with settings showing
         
         super.viewDidLoad()
         
