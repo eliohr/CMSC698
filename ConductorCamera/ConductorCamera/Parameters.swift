@@ -10,8 +10,6 @@ import UIKit
 
 public struct Parameters {
     public let visionObservationConfidence = Float(0.2)
-    // buffer capacity will end up being frameRate * maxObservationWindow, but I can't set it from this class because it's initialized BeatBuffer before self is available
-    public let handCapacity = 100
     public let frameRate = 30.0 // how do i actually maniuplate the camera frame rate?
     public let resolution = CGSize(width: 1920, height: 1080)
     public let maxObservationWindow = 10.0

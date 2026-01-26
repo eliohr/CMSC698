@@ -16,6 +16,7 @@ class CameraViewController: UIViewController {
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
+    private var faceLandmarksRequest = VNDetectFaceLandmarksRequest()
     
     // private var observation = Observation()
     private var lastObservationTimestamp = Date()
@@ -104,7 +105,7 @@ class CameraViewController: UIViewController {
     }
     
     @IBAction func clearAttributes(_ sender: Any) {
-        let clearAlert = UIAlertController(title: "clear all parameters", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
+        let clearAlert = UIAlertController(title: "clear all mappings", message: "Are you sure?", preferredStyle: UIAlertController.Style.alert)
         clearAlert.addAction(UIAlertAction(title: "yes", style: .destructive) { (action) in
             self.midiDevice.clearMIDIAttributes()
         })
@@ -285,6 +286,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             
             // Perform VNDetectHumanHandPoseRequest
             try handler.perform([handPoseRequest])
+            
             // Continue only when a hand pose was detected in the frame.
             // Since we set the maximumHandCount property of the request to 1, there will be at most one observation.
             guard let observation = handPoseRequest.results?.first else { return }
