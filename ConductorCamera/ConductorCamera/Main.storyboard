@@ -119,7 +119,7 @@
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJv-Oa-12n">
                                 <rect key="frame" x="154" y="690" width="85" height="35"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="settings"/>
+                                <buttonConfiguration key="configuration" style="filled" title="close"/>
                                 <connections>
                                     <action selector="settings:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="N1R-X5-DwU"/>
                                 </connections>
