@@ -26,7 +26,7 @@ class BTMIDIPeripheralViewController: CABTMIDILocalPeripheralViewController {
         if self.view.viewWithTag(bodyLabelTag) == nil {
             let bodyLabel = UILabel()
             bodyLabel.tag = bodyLabelTag
-            bodyLabel.text = "Turn the switch on. \n\nOn Mac open Audio MIDI Setup. In the Audio MIDI Setup menu navigate to Window > Show MIDI Studio. In the MIDI Studio menu navigate to MIDI Studio > Open Bluetooth Configuration... and connect to this iPhone. \n\nOn Windows... sorry idk but i'm sure you can find a tutorial... \n\nProceed by closing this pane and using the settings screen to associate hand attributes with MIDI attributes in the menus below. Tap 'set MIDI-hand mapping' to apply the changes. I'll give you a little more instruction there."
+            bodyLabel.text = "Turn on 'Advertise MIDI Service' above.\n\nIf you're using a Mac computer open Audio MIDI Setup. In the Audio MIDI Setup menu navigate to Window > Show MIDI Studio. In the MIDI Studio menu navigate to MIDI Studio > Open Bluetooth Configuration... and connect to this iPhone.\n\nIf you're using a Windows computer... sorry idk but I'm sure you can find a tutorial on how to connect to Bluetooth MIDI peripherals somewhere online...\n\nProceed by closing this pane and using the settings screen to associate hand attributes with MIDI parameter in the menus below: select a hand attribute from the first menu, select a MIDI parameter from the second menu, and tap 'set MIDI-hand mapping' to apply the changes. I'll give you a little more instruction once you've done that."
             bodyLabel.numberOfLines = 0
             bodyLabel.font = UIFont.systemFont(ofSize: 15)
             bodyLabel.textColor = .secondaryLabel

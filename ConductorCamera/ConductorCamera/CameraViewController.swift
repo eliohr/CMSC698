@@ -35,6 +35,11 @@ class CameraViewController: UIViewController {
     @IBOutlet weak var settingsViewToggle: UIView!
     @IBAction func settings(_ sender: UIButton) {
         settingsViewToggle.isHidden.toggle()
+        if settingsViewToggle.isHidden {
+            settings.setTitle("show settings", for: .normal)
+        } else {
+            settings.setTitle("hide settings", for: .normal)
+        }
     }
     @IBOutlet weak var settings: UIButton!
     
