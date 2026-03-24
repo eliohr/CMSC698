@@ -45,24 +45,6 @@ class MyMIDIDevice: UIViewController {
                 
     }
     
-    // temporarily only use the mapping we're learning
-    public func learnMode(from: HandAttribute, to: MIDIEvent) {
-        learningStoring = attributeMIDIEvents
-        clearMIDIAttributes()
-        attributeMIDIEvents = [from:to]
-    }
-    
-    // this is its own function so I can access it from the camera view controller
-    public func clearMIDIAttributes() {
-        attributeMIDIEvents.removeAll()
-    }
-    
-    // revert to using all the mappings and set the new hand-MIDI association
-    public func updateAttributes(from: HandAttribute, to: MIDIEvent) {
-        attributeMIDIEvents = learningStoring
-        attributeMIDIEvents[from] = to
-    }
-    
     private func sendMIDIEvent(a: HandAttribute, e: MIDIEvent) {
         
         let conn = appDelegate?.midiManager.managedOutputConnections["Broadcaster"]
@@ -89,6 +71,24 @@ class MyMIDIDevice: UIViewController {
                 AppError.midiBroadcast(reason: error.localizedDescription).displayInViewController(self)
             }
         }
+    }
+    
+    // temporarily only use the mapping we're learning
+    public func learnMode(from: HandAttribute, to: MIDIEvent) {
+        learningStoring = attributeMIDIEvents
+        clearMIDIAttributes()
+        attributeMIDIEvents = [from:to]
+    }
+    
+    // this is its own function so I can access it from the camera view controller
+    public func clearMIDIAttributes() {
+        attributeMIDIEvents.removeAll()
+    }
+    
+    // revert to using all the mappings and set the new hand-MIDI association
+    public func updateAttributes(from: HandAttribute, to: MIDIEvent) {
+        attributeMIDIEvents = learningStoring
+        attributeMIDIEvents[from] = to
     }
     
 }
