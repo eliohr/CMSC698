@@ -1,5 +1,8 @@
 # MIDI gesture control using Apple Vision framework
 
+# Demo video
+https://www.youtube.com/watch?v=3EkfF6hiSXU
+
 ## Optimizations and Eventual Features
 - actual documentation in this file
 - facial expressions for two-handed playing
